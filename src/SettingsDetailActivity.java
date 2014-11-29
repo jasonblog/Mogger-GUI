@@ -8,7 +8,7 @@ import cz.vutbr.fit.mogger.R;
  * Created by murry on 29.11.14.
  */
 
-//asdgdhsdfdf
+//asdgdhsdfdfgjhfhjjhfj
 public class SettingsDetailActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
