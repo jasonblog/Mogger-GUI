@@ -16,7 +16,7 @@ public class FileBrowser extends Activity {
         setContentView(R.layout.file_browser);
         File mPath = new File(Environment.getExternalStorageDirectory() + "//DIR//");
         fileDialog = new cz.vutbr.fit.mogger.FileDialog(this, mPath);
-        fileDialog.setFileEndsWith(".txt");
+        fileDialog.setFileEndsWith(".mp3");
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
                 Log.d(getClass().getName(), "selected file " + file.toString());
