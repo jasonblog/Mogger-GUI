@@ -42,7 +42,8 @@ public class SettingsDetailActivity extends Activity {
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
                 filePath = file.toString();
-                int index = filePath.lastIndexOf('\\');
+                int index = filePath.lastIndexOf('/');
+                Log.d(getClass().getName(), "INDEX: " + index);
                 if(index > 0 && index < filePath.length())
                 {
                     fileOnlyName = filePath.substring(index, filePath.length());
