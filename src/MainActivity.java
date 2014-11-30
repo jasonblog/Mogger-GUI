@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import cz.vutbr.fit.mogger.AboutActivity;
 import cz.vutbr.fit.mogger.R;
 import cz.vutbr.fit.mogger.SettingsActivity;
+import cz.vutbr.fit.mogger.gesture.GestureManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by murry on 29.11.14.
@@ -17,6 +20,9 @@ import cz.vutbr.fit.mogger.SettingsActivity;
 public class MainActivity extends Activity {
     // get started tlacitko
     private ImageButton btnStarted = null;
+
+    // manager gest
+    static GestureManager manager = new GestureManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +43,9 @@ public class MainActivity extends Activity {
             }
         });
 
-        // TODO:
-        // odkaz na list gest
-        // pokud je prazdny
-        if (true)
+        // pokud je prazdny seznam gest
+        ArrayList<Gesture> g = manager.getGestures();
+        if (g != null && g.isEmpty())
         {
             btnStarted.setVisibility(1);
         }
