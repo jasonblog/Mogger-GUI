@@ -18,6 +18,7 @@ import java.io.File;
  */
 public class SettingsDetailActivity extends Activity {
     FileDialog fileDialog = null;
+    File mPath = null;
 
     EditText name = null;
     SeekBar threshold = null;
@@ -32,7 +33,7 @@ public class SettingsDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingsdetailactivity);
 
-        File mPath = new File(Environment.getExternalStorageDirectory() + "//DIR//");
+        mPath = new File(Environment.getExternalStorageDirectory() + "//DIR//");
         fileDialog = new FileDialog(this, mPath);
         fileDialog.setFileEndsWith(".mp3");
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
@@ -56,9 +57,11 @@ public class SettingsDetailActivity extends Activity {
         gestureOk = (TextView)findViewById(R.id.textView7);
         save = (ImageButton)findViewById(R.id.imageButton5);
         delete = (ImageButton)findViewById(R.id.imageButton4);
-        if(getIntent().getSerializableExtra("Gesture") == "ahoj")
-        {
-            name.setText("Enter name...");
-        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        fileName.setText(mPath.getName());
     }
 }
