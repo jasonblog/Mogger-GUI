@@ -22,7 +22,11 @@ public class MainActivity extends Activity {
     private ImageButton btnStarted = null;
 
     // manager gest
-    private GestureManager manager = new GestureManager(getApplicationContext());
+    //private GestureManager manager;
+
+    public MainActivity() {
+        //manager = new GestureManager(MainActivity.this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class MainActivity extends Activity {
         });
 
         // pokud je prazdny seznam gest
-        if (manager.isEmpty())
+        if (GestureManager.createInstance(MainActivity.this).isEmpty())
         {
             btnStarted.setVisibility(View.VISIBLE);
         }

@@ -26,7 +26,7 @@ public class MoveTriggerActivity extends Activity implements OnClickListener {
     Sounds sounds;
     FileStorage storage;
 
-    GestureManager gestureManager;
+    GestureManager gestureManager = GestureManager.createInstance(MoveTriggerActivity.this);
     Listener fastestListener;
 
     // prace s gesty
@@ -46,7 +46,7 @@ public class MoveTriggerActivity extends Activity implements OnClickListener {
         sounds = new Sounds();
         storage = new FileStorage(getApplicationContext());
         gesture = new Gesture("", "", 0);
-        gestureManager = new GestureManager(getApplicationContext());
+        //gestureManager = new GestureManager(getApplicationContext());
 
         // GUI kravinky
         textView = (TextView) findViewById(R.id.text_view);

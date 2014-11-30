@@ -17,12 +17,14 @@ import cz.vutbr.fit.mogger.gesture.GestureManager;
  */
 public class SettingsActivity extends Activity {
 
-    private final GestureManager gestureManager;
+    private GestureManager manager;
+
     ListView listView;
     GestugeArrayAdapter adapter = null;
 
-    public SettingsActivity() {
-        gestureManager = new GestureManager(getApplicationContext());
+    public SettingsActivity()
+    {
+        manager = GestureManager.createInstance(SettingsActivity.this);
     }
 
     @Override
@@ -32,9 +34,16 @@ public class SettingsActivity extends Activity {
 
         Log.d("settings", "Settings activity starting");
 
+
+        manager.addGesture(new Gesture("a", "b", 80));
+        manager.addGesture(new Gesture("a", "b", 80));
+        manager.addGesture(new Gesture("a", "b", 80));
+        manager.addGesture(new Gesture("a", "b", 80));
+        manager.addGesture(new Gesture("a", "b", 80));
+
         // testovaci data
         listView = (ListView)findViewById(R.id.list);
-        adapter = new GestugeArrayAdapter(this, gestureManager.getGestures());
+        adapter = new GestugeArrayAdapter(this, GestureManager.createInstance(SettingsActivity.this).getGestures());
         listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
