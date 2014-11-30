@@ -6,7 +6,7 @@
       tools:context=".SettingsActivity">
 
     <item android:id="@+id/settings_create"
-          android:icon="@drawable/note"
+          android:icon="@drawable/add"
           android:title="@string/settings_create"
             />
 </menu>

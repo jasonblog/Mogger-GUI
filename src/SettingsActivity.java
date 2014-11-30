@@ -2,8 +2,10 @@ package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -72,17 +74,21 @@ public class SettingsActivity extends ListActivity {
         return true;
     }
 
-
-
-    /*
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "Settings");
-        menu.add(0, 1, 1, "About");
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(item.getItemId() == R.id.action_settings)
+        {
+            // settingsdetail
+            Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
+            myIntent.putExtra("GestureObject", "ahoj");
+            this.startActivity(myIntent);
+        }
 
-        return super.onPrepareOptionsMenu(menu);
-
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
-    */
 
 }
