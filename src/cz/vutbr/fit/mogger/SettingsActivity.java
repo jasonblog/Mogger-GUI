@@ -70,6 +70,8 @@ public class SettingsActivity extends Activity {
                 //myIntent.putExtra(bundle);
                 myIntent.putExtra("gestuge", position);
                 startActivity(myIntent);
+
+                //MediaPlayer mPlayer = MediaPlayer.create(PlayWorld.this, R.raw.aaanicholas);
             }
         });
 
