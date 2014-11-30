@@ -1,20 +1,16 @@
 package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import cz.vutbr.fit.mogger.R;
-import cz.vutbr.fit.mogger.SettingsDetailActivity;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by murry on 29.11.14.
@@ -23,6 +19,7 @@ public class SettingsActivity extends Activity {
 
     private final GestureManager gestureManager;
     ListView listView;
+    GestugeArrayAdapter adapter = null;
 
     public SettingsActivity() {
         gestureManager = new GestureManager(getApplicationContext());
@@ -37,7 +34,8 @@ public class SettingsActivity extends Activity {
 
         // testovaci data
         listView = (ListView)findViewById(R.id.list);
-        listView.setAdapter(new GestugeArrayAdapter(this, gestureManager.getGestures()));
+        adapter = new GestugeArrayAdapter(this, gestureManager.getGestures());
+        listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -60,7 +58,6 @@ public class SettingsActivity extends Activity {
                 myIntent.putExtra("gestuge", position);
                 startActivity(myIntent);
 
-                //MediaPlayer mPlayer = MediaPlayer.create(PlayWorld.this, R.raw.aaanicholas);
             }
         });
 
@@ -78,7 +75,7 @@ public class SettingsActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(item.getItemId() == R.id.action_settings)
+        if(item.getItemId() == R.id.settings_create)
         {
             // settingsdetail
             Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
@@ -90,5 +87,24 @@ public class SettingsActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop ()
+    {
+        if (adapter != null)
+        {
+            adapter.mPlayer.pause();
+        }
+    }
+
+    @Override
+    protected  void onDestroy()
+    {
+        if (adapter!=null)
+        {
+            adapter.mPlayer.stop();
+            adapter = null;
+        }
     }
 }
