@@ -2,6 +2,5 @@
 <resources>
     <string name="app_name">Mogger</string>
     <string name="action_settings">Settings</string>
-    <string name="about"><h1>Aplikace Mogger</h1><br/><br/> Aplikace Mogger vznikla v rámci předmětu TAM.<br/><br/><br/><i>FIT VUT v Brně, 2014</i></string>
     <string name="settings_create">Add</string>
 </resources>

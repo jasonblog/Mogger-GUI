@@ -16,7 +16,9 @@ public class AboutActivity extends Activity {
         setContentView(R.layout.aboutactivity);
 
         TextView tvAbout = (TextView)findViewById(R.id.aboutText);
-        String s = getString(R.string.about);
+        String s = "<h1>Aplikace MOGGER</h1>";
+        s += "<br /><br /> Aplikace <b>MOGER</b> byla vytvořena v rámci předmětu TAM na Fakultě Informačních technologií VUT v Brně, 2014";
+        s += "<br /><br /> <b>Autoři:</b> Adámek Jakub, Dvořák Petr, Paulík Miroslav, Smetka Tomáš";
         tvAbout.setText(Html.fromHtml(s));
     }
 }
