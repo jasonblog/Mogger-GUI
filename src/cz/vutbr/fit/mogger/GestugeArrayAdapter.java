@@ -1,8 +1,5 @@
 package cz.vutbr.fit.mogger;
 
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,14 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by murry on 29.11.14.
  */
 public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
     private final Context context;
-    private final Gesture[] values;
+    private ArrayList<Gesture> values;
 
-    public GestugeArrayAdapter(Context context, Gesture[] values) {
+    public GestugeArrayAdapter(Context context, ArrayList<Gesture> values) {
         super(context, R.layout.list_gesture, values);
         this.context = context;
         this.values = values;
@@ -45,8 +44,8 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
         });
 
         // nastaveni popisku, obrazku
-        descrition.setText(values[position].fileSound);
-        title.setText(values[position].name);
+        descrition.setText(values.get(position).fileSound);
+        title.setText(values.get(position).name);
         imageView.setImageResource(R.drawable.note);
 
         return rowView;

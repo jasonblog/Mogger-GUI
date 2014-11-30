@@ -45,8 +45,8 @@ public class MoveTriggerActivity extends Activity implements OnClickListener {
 
         sounds = new Sounds();
         storage = new FileStorage(getApplicationContext());
-        gesture = new Gesture();
-        gestureManager = new GestureManager();
+        gesture = new Gesture("", "", 0);
+        gestureManager = new GestureManager(getApplicationContext());
 
         // GUI kravinky
         textView = (TextView) findViewById(R.id.text_view);
@@ -59,11 +59,6 @@ public class MoveTriggerActivity extends Activity implements OnClickListener {
         button1.setTag(1);
         button2.setTag(1);
 
-        if (storage.loadConfig()) {
-            textView.setText("Loaded");
-        } else {
-            textView.setText("Config Not Found...");
-        }
     }
 
     protected void onResume() {

@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     private ImageButton btnStarted = null;
 
     // manager gest
-    static GestureManager manager = new GestureManager();
+    private GestureManager manager = new GestureManager(getApplicationContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.mainactivity);
 
         btnStarted = (ImageButton)findViewById(R.id.btnGetStarted);
-        btnStarted.setVisibility(View.VISIBLE);
+        btnStarted.setVisibility(View.INVISIBLE);
 
 
         // kliknuti na tlacitko get started
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         // pokud je prazdny seznam gest
         if (manager.isEmpty())
         {
-            btnStarted.setVisibility(View.INVISIBLE);
+            btnStarted.setVisibility(View.VISIBLE);
         }
 
 

@@ -19,7 +19,7 @@ public class Listener implements SensorEventListener {
     private int check_gesture;
     private int prev_x, prev_y, prev_z;
 
-    private Gesture currentGesture = new Gesture();
+    private Gesture currentGesture;
 
     public Listener(MoveTriggerActivity mogger, GestureManager gestureManager) {
 
@@ -33,7 +33,7 @@ public class Listener implements SensorEventListener {
 
     public void startRecording() {
         isActive = true;
-        currentGesture = new Gesture(); // to avoid overriding existing gesture
+        currentGesture = new Gesture("new", "", 0); // to avoid overriding existing gesture
     }
 
     public void stopRecording() {
