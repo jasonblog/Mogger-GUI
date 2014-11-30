@@ -43,8 +43,11 @@ public class SettingsDetailActivity extends Activity {
             public void fileSelected(File file) {
                 filePath = file.toString();
                 int index = filePath.lastIndexOf('\\');
-                fileOnlyName = filePath.substring(index, filePath.length());
-                fileName.setText(fileOnlyName);
+                if(index > 0 && index < filePath.length())
+                {
+                    fileOnlyName = filePath.substring(index, filePath.length());
+                    fileName.setText(fileOnlyName);
+                }
                 Log.d(getClass().getName(), "selected file " + file.toString());
             }
         });
