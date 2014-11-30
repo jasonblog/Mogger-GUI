@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.mainactivity);
 
         btnStarted = (ImageButton)findViewById(R.id.btnGetStarted);
-        btnStarted.setVisibility(0);
+        btnStarted.setVisibility(View.VISIBLE);
 
 
         // kliknuti na tlacitko get started
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         // pokud je prazdny seznam gest
         if (manager.isEmpty())
         {
-            btnStarted.setVisibility(1);
+            btnStarted.setVisibility(View.INVISIBLE);
         }
 
 
