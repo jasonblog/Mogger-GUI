@@ -36,6 +36,7 @@ public class GestureManager {
         updateGesture(gesture);
     }
 
+
     public void updateGesture(Gesture gesture) {
         storage.storeGestures(gestures);
     }

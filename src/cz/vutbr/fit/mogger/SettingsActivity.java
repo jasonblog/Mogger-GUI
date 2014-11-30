@@ -82,6 +82,13 @@ public class SettingsActivity extends Activity {
             Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
             myIntent.putExtra("gesture", -1);
             this.startActivity(myIntent);
+
+            listView = (ListView)findViewById(R.id.list);
+            adapter = new GestugeArrayAdapter(this, GestureManager.createInstance(SettingsActivity.this).getGestures());
+            listView.setAdapter(adapter);
+            listView.setTextFilterEnabled(true);
+
+
         }
 
         if (id == R.id.action_settings) {
