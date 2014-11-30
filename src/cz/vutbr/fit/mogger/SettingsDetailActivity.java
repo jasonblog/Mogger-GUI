@@ -30,8 +30,6 @@ public class SettingsDetailActivity extends Activity {
     ImageButton save = null;
     ImageButton delete = null;
 
-    //String filePath = null;
-    //String fileOnlyName = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +63,23 @@ public class SettingsDetailActivity extends Activity {
         delete = (ImageButton)findViewById(R.id.imageButton4);
 
 
+        // najdi gesto z pozice v poli gest
         int position = (int)getIntent().getExtras().getInt("gesture");
-        Gesture g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
-        if (g != null) {
-            // vypis do GUI
-            name.setText(g.name);
-            fileName.setText(getFileNameOnly(g.fileSound));
+        if (position > 0) {
+            Gesture g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
+            if (g != null) {
+                // vypis do GUI
+                name.setText(g.name);
+                fileName.setText(getFileNameOnly(g.fileSound));
+                threshold.setMax( (int)(g.getThreshold() + g.getThreshold() * 0.5)); // + 50%
+                threshold.setProgress(g.getThreshold());
+            }//if
         }//if
     }
 
     /**
      * Vraci nazev souboru z plne cesty
-     * @param fullPath
+     * @param fullPath Cesta cesta souboru
      * @return
      */
     private String getFileNameOnly(String fullPath)

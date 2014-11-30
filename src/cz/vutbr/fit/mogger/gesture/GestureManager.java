@@ -13,7 +13,7 @@ public class GestureManager {
     DTW dtw;
 
     // instance managera - singleton
-    private static  GestureManager instance = null;
+    private static GestureManager instance = null;
 
     private GestureManager(Context context) {
         storage = new FileStorage(context);
@@ -21,8 +21,7 @@ public class GestureManager {
         dtw = new DTW();
     }
 
-    public static  GestureManager createInstance(Context context)
-    {
+    public static GestureManager createInstance(Context context) {
         if (instance == null) instance = new GestureManager(context);
         return instance;
     }
@@ -34,6 +33,11 @@ public class GestureManager {
 //            }
 //        }
         gestures.add(gesture);
+        updateGesture(gesture);
+    }
+
+    public void updateGesture(Gesture gesture) {
+        storage.storeGestures(gestures);
     }
 
     public void removeGesture(String name) {
@@ -86,6 +90,7 @@ public class GestureManager {
 
     /**
      * Test na prazdnost gest
+     *
      * @return
      */
     public boolean isEmpty() {
