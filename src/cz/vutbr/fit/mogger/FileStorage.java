@@ -113,47 +113,22 @@ public class FileStorage {
         String name = el.getAttribute("name");
         String file = el.getAttribute("file");
         int threshold = Integer.parseInt(el.getAttribute("threshold"));
-        int x, y, z;
 
-        //Create a new Employee with the value read from the xml nodes
         Gesture gesture = new Gesture(name, file, threshold);
 
-        //get a nodelist of         elements
         NodeList nl = el.getElementsByTagName("Coords");
         if (nl != null && nl.getLength() > 0) {
             for (int i = 0; i < nl.getLength(); i++) {
+                Element elc = (Element) nl.item(i);
+                int x = Integer.parseInt(elc.getAttribute("x"));
+                int y = Integer.parseInt(elc.getAttribute("y"));
+                int z = Integer.parseInt(elc.getAttribute("z"));
 
-
-//                gesture.addCoords(x, y, z);
+                gesture.addCoords(x, y, z);
             }
         }
 
         return gesture;
-    }
-
-    /**
-     * I take a xml element and the tag name, look for the tag and get
-     * the text content
-     * i.e for <gesture><name>Square</name></gesture> xml snippet if
-     * the Element points to gesture node and tagName is 'name' I will return Square
-     */
-    private String getTextValue(Element ele, String tagName) {
-        String textVal = null;
-        NodeList nl = ele.getElementsByTagName(tagName);
-        if (nl != null && nl.getLength() > 0) {
-            Element el = (Element) nl.item(0);
-            textVal = el.getFirstChild().getNodeValue();
-        }
-
-        return textVal;
-    }
-
-
-    /**
-     * Calls getTextValue and returns a int value
-     */
-    private int getIntValue(Element ele, String tagName) {
-        return Integer.parseInt(getTextValue(ele, tagName));
     }
 
     private File getFile() {
