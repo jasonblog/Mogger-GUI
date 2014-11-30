@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import cz.vutbr.fit.mogger.R;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
 
@@ -30,6 +27,13 @@ public class SettingsDetailActivity extends Activity {
     ImageButton save = null;
     ImageButton delete = null;
 
+    // plna cesta
+    String fullPath;
+
+    // pozice gest v seznamu
+    int position = 0;
+    Gesture g = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class SettingsDetailActivity extends Activity {
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
 
+                fullPath = file.toString();
                 fileName.setText(getFileNameOnly(file.toString()));
                 //Log.d(getClass().getName(), "selected file " + file.toString());
             }
@@ -64,9 +69,9 @@ public class SettingsDetailActivity extends Activity {
 
 
         // najdi gesto z pozice v poli gest
-        int position = (int)getIntent().getExtras().getInt("gesture");
+        position = (int)getIntent().getExtras().getInt("gesture");
         if (position > 0) {
-            Gesture g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
+            g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
             if (g != null) {
                 // vypis do GUI
                 name.setText(g.name);
@@ -75,6 +80,38 @@ public class SettingsDetailActivity extends Activity {
                 threshold.setProgress(g.getThreshold());
             }//if
         }//if
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Toast.LENGTH_LONG)
+                        .show();
+
+                if (g == null) g = new Gesture("", "", 0);
+                g.fileSound = fullPath;
+                g.name = name.getText().toString();
+                g.setThreshold(threshold.getProgress());
+
+                // najdi gest - vytvoreni
+                if (position == -1)
+                {
+                    GestureManager.createInstance(SettingsDetailActivity.this).addGesture(g);
+                    Log.d("detail", "addGesture");
+
+                } else if (position > -1 && GestureManager.createInstance(SettingsDetailActivity.this).getGestures().size() >= position)
+                {
+                    // najdi ex. gesto
+                    Gesture g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
+                    GestureManager.createInstance(SettingsDetailActivity.this).updateGesture(g);
+                    Log.d("detail", "updateGesture");
+
+                }
+
+            }
+        });
+
     }
 
     /**

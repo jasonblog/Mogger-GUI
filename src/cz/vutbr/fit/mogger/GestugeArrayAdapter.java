@@ -48,11 +48,14 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
 
                 String filePath = gesture.fileSound;
                 Log.d("adapter", filePath);
+
                 File path = Environment.getExternalStoragePublicDirectory("/");
-                File file = new File(path, filePath);
+                File file = new File(filePath);
 
                 try {
-                    mPlayer.setDataSource(path + "/" + filePath);
+                    mPlayer = new MediaPlayer();
+
+                    mPlayer.setDataSource(filePath);
                     mPlayer.prepare();
                     mPlayer.start();
 
@@ -62,6 +65,8 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
                 catch (Exception e)
                 {
                     Log.d("adapter", e.toString());
+                    Log.d("adapter", filePath);
+
                     Toast.makeText(v.getContext(), "Playing song: failed", Toast.LENGTH_LONG).show();
 
                 }

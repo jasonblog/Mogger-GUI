@@ -90,7 +90,7 @@ public class FileStorage {
 
             //parse using builder to get DOM representation of the XML file
             Document dom = db.parse("employees.xml");
-//            gestures = parseDocument(dom);
+            gestures = parseDocument(dom);
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();

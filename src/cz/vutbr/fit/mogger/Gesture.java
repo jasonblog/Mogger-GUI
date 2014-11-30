@@ -94,6 +94,8 @@ public class Gesture {
     public int getThreshold() {
         return threshold;
     }
-
+    public void setThreshold(int v) {
+        threshold = v;
+    }
 
 }
