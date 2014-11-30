@@ -1,6 +1,7 @@
 package cz.vutbr.fit.mogger;
 
 import android.content.Context;
+import android.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -28,7 +29,7 @@ public class FileStorage {
         this.context = context;
     }
 
-    public void storeGesture() {
+    public void storeGestures(ArrayList<Gesture> gestures) {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = null;
@@ -36,8 +37,26 @@ public class FileStorage {
 
             // root elements
             Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("company");
+            Element rootElement = doc.createElement("gestures");
             doc.appendChild(rootElement);
+
+            for (Gesture gesture : gestures) {
+                Element gel = doc.createElement("gesture");
+                gel.setAttribute("name", gesture.name);
+                gel.setAttribute("file", gesture.fileSound);
+                gel.setAttribute("threshold", gesture.getThreshold() + "");
+
+                int[][] coords = gesture.getCoordsArray();
+                for (int i = 0; i < gesture.size(); i++) {
+                    Element c = doc.createElement("coord");
+                    gel.setAttribute("x", coords[0][i] + "");
+                    gel.setAttribute("y", coords[1][i] + "");
+                    gel.setAttribute("z", coords[2][i] + "");
+                    gel.appendChild(c);
+                }
+
+                rootElement.appendChild(gel);
+            }
 
 
             // write the content into xml file
@@ -47,7 +66,7 @@ public class FileStorage {
             StreamResult result = new StreamResult(getFile());
 
             transformer.transform(source, result);
-            System.out.println("File saved!");
+            Log.d("FileStorage", "File saved!");
 
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -61,7 +80,7 @@ public class FileStorage {
 
     public ArrayList<Gesture> loadConfig() {
         ArrayList<Gesture> gestures = new ArrayList<Gesture>();
-//get the factory
+        //get the factory
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
