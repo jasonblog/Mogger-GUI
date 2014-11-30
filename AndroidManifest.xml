@@ -29,5 +29,6 @@
         <activity android:name="SettingsActivity"/>
         <activity android:name="SettingsDetailActivity"/>
         <activity android:name="AboutActivity"/>
+        <activity android:name=".FileBrowser"/>
     </application>
 </manifest>
