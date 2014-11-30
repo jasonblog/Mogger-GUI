@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import cz.vutbr.fit.mogger.R;
@@ -82,4 +83,25 @@ public class SettingsActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(item.getItemId() == R.id.action_settings)
+        {
+            // settingsdetail
+            Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
+            myIntent.putExtra("GestureObject", "ahoj");
+            this.startActivity(myIntent);
+        }
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+>>>>>>> 9b2936353a79f46560cdd7753e00f566824ce0e6
 }
