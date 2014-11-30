@@ -27,7 +27,7 @@ public class SettingsDetailActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingsdetailactivity);
-
+        //check all
         name = (EditText)findViewById(R.id.editText);
         threshold = (SeekBar)findViewById(R.id.seekBar);
         openFile = (ImageButton)findViewById(R.id.imageButton);
