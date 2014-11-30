@@ -48,7 +48,6 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Playing song: " + desc.getText(), Toast.LENGTH_LONG).show();
 
                 String filePath = values[position].fileSound;
                 Log.d("adapter", filePath);
@@ -60,10 +59,14 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
                     mPlayer.prepare();
                     mPlayer.start();
 
+                    Toast.makeText(v.getContext(), "Playing song: " + desc.getText(), Toast.LENGTH_LONG).show();
+
                 }
                 catch (Exception e)
                 {
                     Log.d("adapter", e.toString());
+                    Toast.makeText(v.getContext(), "Playing song: failed", Toast.LENGTH_LONG).show();
+
                 }
             }
         });

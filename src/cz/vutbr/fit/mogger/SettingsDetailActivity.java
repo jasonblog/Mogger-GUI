@@ -62,6 +62,7 @@ public class SettingsDetailActivity extends Activity {
     @Override
     public void onResume()
     {
+        super.onResume();
         fileName.setText(mPath.getName());
     }
 }
