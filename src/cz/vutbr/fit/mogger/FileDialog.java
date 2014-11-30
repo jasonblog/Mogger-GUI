@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class FileDialog {
     private static final String PARENT_DIR = "..";
     private final String TAG = getClass().getName();

@@ -92,6 +92,7 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onStop ()
     {
+        super.onStop();
         if (adapter != null)
         {
             adapter.mPlayer.pause();
@@ -101,6 +102,7 @@ public class SettingsActivity extends Activity {
     @Override
     protected  void onDestroy()
     {
+        super.onDestroy();
         if (adapter!=null)
         {
             adapter.mPlayer.stop();
