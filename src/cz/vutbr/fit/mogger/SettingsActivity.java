@@ -64,7 +64,8 @@ public class SettingsActivity extends Activity {
                 //Bundle bundle = new Bundle();
                 //bundle.putSerializable("g", g);
                 //myIntent.putExtra(bundle);
-                myIntent.putExtra("gestuge", position);
+
+                myIntent.putExtra("gesture", position);
                 startActivity(myIntent);
 
             }
