@@ -40,7 +40,6 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Toast.makeText(v.getContext(), "Playing song: " + descrition.getText(), Toast.LENGTH_LONG).show();
             }
         });
