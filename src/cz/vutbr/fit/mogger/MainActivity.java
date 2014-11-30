@@ -44,8 +44,7 @@ public class MainActivity extends Activity {
         });
 
         // pokud je prazdny seznam gest
-        ArrayList<Gesture> g = manager.getGestures();
-        if (g != null && g.isEmpty())
+        if (manager.isEmpty())
         {
             btnStarted.setVisibility(1);
         }

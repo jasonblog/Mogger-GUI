@@ -69,4 +69,14 @@ public class GestureManager {
         public InvalidArgumentException(String s) {
         }
     }
+
+
+    /**
+     * Test na prazdnost gest
+     * @return
+     */
+    public boolean isEmpty() {
+        return gestures.isEmpty();
+
+    }
 }
