@@ -12,10 +12,19 @@ public class GestureManager {
     protected ArrayList<Gesture> gestures;
     DTW dtw;
 
-    public GestureManager(Context context) {
+    // instance managera - singleton
+    private static  GestureManager instance = null;
+
+    private GestureManager(Context context) {
         storage = new FileStorage(context);
         gestures = storage.loadConfig();
         dtw = new DTW();
+    }
+
+    public static  GestureManager createInstance(Context context)
+    {
+        if (instance == null) instance = new GestureManager(context);
+        return instance;
     }
 
     public void addGesture(Gesture gesture) {
