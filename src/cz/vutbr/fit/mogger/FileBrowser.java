@@ -9,7 +9,7 @@ import java.io.File;
  * Created by Irteam on 30. 11. 2014.
  */
 
-//test
+//test2
 public class FileBrowser extends Activity {
     cz.vutbr.fit.mogger.FileDialog fileDialog = null;
     @Override
