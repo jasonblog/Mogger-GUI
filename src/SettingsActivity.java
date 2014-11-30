@@ -83,8 +83,6 @@ public class SettingsActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,6 +100,4 @@ public class SettingsActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
->>>>>>> 9b2936353a79f46560cdd7753e00f566824ce0e6
 }
