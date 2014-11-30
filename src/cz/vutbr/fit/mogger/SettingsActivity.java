@@ -61,11 +61,7 @@ public class SettingsActivity extends Activity {
 
                 // zobrazeni detailu polozky
                 Intent myIntent = new Intent(SettingsActivity.this, SettingsDetailActivity.class);
-                // TODO: data to detailu
-                //Bundle bundle = new Bundle();
-                //bundle.putSerializable("g", g);
-                //myIntent.putExtra(bundle);
-
+                // data do aktivity
                 myIntent.putExtra("gesture", position);
                 startActivity(myIntent);
 
