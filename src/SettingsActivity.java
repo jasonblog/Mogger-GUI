@@ -2,39 +2,32 @@ package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import cz.vutbr.fit.mogger.R;
+import cz.vutbr.fit.mogger.SettingsDetailActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by murry on 29.11.14.
  */
-public class SettingsActivity extends ListActivity {
+public class SettingsActivity extends Activity {
 
     FileStorage storage;
-
+    ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingsactivity);
 
-
-        // kliknuti na tlacitko
-        /*ImageView imageView = (ImageView) findViewById(R.id.imgNote);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        */
+        Log.d("settings", "Settings activity starting");
 
         // testovaci data
         storage = new FileStorage(getApplicationContext());
@@ -52,16 +45,34 @@ public class SettingsActivity extends ListActivity {
         test[8] = g;
         test[9] = g;
 
-        setListAdapter(new GestugeArrayAdapter(this, test));
-    }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+        listView = (ListView)findViewById(R.id.list);
+        listView.setAdapter(new GestugeArrayAdapter(this, test));
+        listView.setTextFilterEnabled(true);
 
-        //get selected items
-        //ListView lv = (ListView)findViewById(R.id.lstGestuge);
-        String selectedValue = (String) getListAdapter().getItem(position);
-        Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                Log.d("settings", "Settings activity click list");
+                Gesture g = (Gesture)listView.getAdapter().getItem(position);
+                String  itemValue = g.name;
+                Toast.makeText(getApplicationContext(),
+                        "Position: " + position + "  ListItem : " + itemValue , Toast.LENGTH_LONG)
+                        .show();
+
+                // zobrazeni detailu polozky
+                Intent myIntent = new Intent(SettingsActivity.this, SettingsDetailActivity.class);
+                // TODO: data to detailu
+                //Bundle bundle = new Bundle();
+                //bundle.putSerializable("g", g);
+                //myIntent.putExtra(bundle);
+                myIntent.putExtra("gestuge", position);
+                startActivity(myIntent);
+            }
+        });
+
+
 
     }
 
@@ -71,18 +82,4 @@ public class SettingsActivity extends ListActivity {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
-
-
-
-    /*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "Settings");
-        menu.add(0, 1, 1, "About");
-
-        return super.onPrepareOptionsMenu(menu);
-
-    }
-    */
-
 }
