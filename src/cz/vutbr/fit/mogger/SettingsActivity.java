@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class SettingsActivity extends Activity {
 
-    FileStorage storage;
     ListView listView;
 
     @Override
@@ -31,14 +30,15 @@ public class SettingsActivity extends Activity {
         Log.d("settings", "Settings activity starting");
 
         // testovaci data
-        storage = new FileStorage(getApplicationContext());
         Gesture[] test = new Gesture[10];
-        Gesture g = new Gesture(storage); g.name = "test 1"; g.fileSound = "test-sound.mp3";
+        Gesture g = new Gesture();
+        g.name = "test 1";
+        g.fileSound = "test-sound.mp3";
+
         test[0] = g;
         test[1] = g;
         test[2] = g;
         test[3] = g;
-        g.name = "test 2";
         test[4] = g;
         test[5] = g;
         test[6] = g;

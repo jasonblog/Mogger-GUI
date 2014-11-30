@@ -14,12 +14,12 @@ public class GestureManager {
         dtw = new DTW();
     }
 
-    public void addGesture(Gesture gesture) throws InvalidArgumentException {
-        for (Gesture storedGesture : gestures) {
-            if (storedGesture.name.equals(gesture.name)) {
-                throw new InvalidArgumentException("Gesture with name '" + gesture.name + "' already exists.");
-            }
-        }
+    public void addGesture(Gesture gesture) {
+//        for (Gesture storedGesture : gestures) {
+//            if (storedGesture.name.equals(gesture.name)) {
+//                throw new InvalidArgumentException("Gesture with name '" + gesture.name + "' already exists.");
+//            }
+//        }
         gestures.add(gesture);
     }
 
