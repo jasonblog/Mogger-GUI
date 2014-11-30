@@ -17,7 +17,7 @@ import java.io.File;
  * Created by murry on 29.11.14.
  */
 public class SettingsDetailActivity extends Activity {
-    cz.vutbr.fit.mogger.FileDialog fileDialog = null;
+    FileDialog fileDialog = null;
 
     EditText name = null;
     SeekBar threshold = null;
@@ -33,7 +33,7 @@ public class SettingsDetailActivity extends Activity {
         setContentView(R.layout.settingsdetailactivity);
 
         File mPath = new File(Environment.getExternalStorageDirectory() + "//DIR//");
-        fileDialog = new cz.vutbr.fit.mogger.FileDialog(this, mPath);
+        fileDialog = new FileDialog(this, mPath);
         fileDialog.setFileEndsWith(".mp3");
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
