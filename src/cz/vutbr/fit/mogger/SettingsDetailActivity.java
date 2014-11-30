@@ -42,10 +42,13 @@ public class SettingsDetailActivity extends Activity {
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
                 filePath = file.toString();
-                int index = filePath.lastIndexOf('\\');
-                fileOnlyName = filePath.substring(index, filePath.length());
-                fileName.setText(fileOnlyName);
-                Log.d(getClass().getName(), "selected file " + file.toString());
+                int index = filePath.lastIndexOf('/');
+                if(index > 0 && index < filePath.length())
+                {
+                    fileOnlyName = filePath.substring(index+1, filePath.length());
+                    fileName.setText(fileOnlyName);
+                }
+                //Log.d(getClass().getName(), "selected file " + file.toString());
             }
         });
 
