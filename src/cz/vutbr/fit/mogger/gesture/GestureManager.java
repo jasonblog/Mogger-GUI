@@ -1,16 +1,20 @@
 package cz.vutbr.fit.mogger.gesture;
 
+import android.content.Context;
 import cz.vutbr.fit.mogger.DTW;
+import cz.vutbr.fit.mogger.FileStorage;
 import cz.vutbr.fit.mogger.Gesture;
 
 import java.util.ArrayList;
 
 public class GestureManager {
+    private final FileStorage storage;
     protected ArrayList<Gesture> gestures;
     DTW dtw;
 
-    public GestureManager() {
-        gestures = new ArrayList<Gesture>();
+    public GestureManager(Context context) {
+        storage = new FileStorage(context);
+        gestures = storage.loadConfig();
         dtw = new DTW();
     }
 

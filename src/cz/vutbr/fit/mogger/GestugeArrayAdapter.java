@@ -1,33 +1,29 @@
 package cz.vutbr.fit.mogger;
 
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
-/**
- * Created by murry on 29.11.14.
- */
+
 public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
     private final Context context;
-    private final Gesture[] values;
+    private ArrayList<Gesture> values;
 
     // prehravani media
     public MediaPlayer mPlayer = new MediaPlayer();
 
-    public GestugeArrayAdapter(Context context, Gesture[] values) {
+    public GestugeArrayAdapter(Context context, ArrayList<Gesture> values) {
         super(context, R.layout.list_gesture, values);
         this.context = context;
         this.values = values;
@@ -43,16 +39,17 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
         final TextView desc = (TextView) rowView.findViewById(R.id.lblDescrition);
         TextView title = (TextView) rowView.findViewById(R.id.edtTitle);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imgNote);
+        final Gesture gesture = values.get(position);
 
         //kliknuti na notu - prehrani zvuku
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String filePath = values[position].fileSound;
+                String filePath = gesture.fileSound;
                 Log.d("adapter", filePath);
                 File path = Environment.getExternalStoragePublicDirectory("/");
-                File file = new File(path, values[position].fileSound);
+                File file = new File(path, filePath);
 
                 try {
                     mPlayer.setDataSource(path + "/" + filePath);
@@ -72,8 +69,8 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
         });
 
         // nastaveni popisku, obrazku
-        desc.setText(values[position].fileSound);
-        title.setText(values[position].name);
+        desc.setText(gesture.fileSound);
+        title.setText(gesture.name);
         imageView.setImageResource(R.drawable.note);
 
         return rowView;

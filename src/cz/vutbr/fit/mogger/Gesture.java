@@ -8,13 +8,9 @@ import static java.lang.Math.abs;
 
 public class Gesture {
 
-
     // cesta k souboru
     public String fileSound;
-
     public String name;
-    public Sounds melody;
-
     private int threshold;
 
     // gesto akcelerometr
@@ -22,11 +18,13 @@ public class Gesture {
     private ArrayList<Integer> coord_y;
     private ArrayList<Integer> coord_z;
 
-
     // signalizace zapoceti nahravani noveho gesta a ukonceni nahravani
     Sounds sounds;
 
-    public Gesture() {
+    public Gesture(String name, String fileSound, int threshold) {
+        this.name = name;
+        this.fileSound = fileSound;
+        this.threshold = threshold;
 
         // gesto akcelerometr
         coord_x = new ArrayList<Integer>();

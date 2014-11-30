@@ -1,30 +1,29 @@
 package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import cz.vutbr.fit.mogger.R;
-import cz.vutbr.fit.mogger.SettingsDetailActivity;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.List;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+import cz.vutbr.fit.mogger.gesture.GestureManager;
 
 /**
  * Created by murry on 29.11.14.
  */
 public class SettingsActivity extends Activity {
 
+    private final GestureManager gestureManager;
     ListView listView;
     GestugeArrayAdapter adapter = null;
+
+    public SettingsActivity() {
+        gestureManager = new GestureManager(getApplicationContext());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,26 +33,8 @@ public class SettingsActivity extends Activity {
         Log.d("settings", "Settings activity starting");
 
         // testovaci data
-        Gesture[] test = new Gesture[10];
-        Gesture g = new Gesture();
-        g.name = "test 1";
-        g.fileSound = "test-sound.mp3";
-
-        test[0] = g;
-        test[1] = g;
-        test[2] = g;
-        test[3] = g;
-        test[4] = g;
-        test[5] = g;
-        test[6] = g;
-        test[7] = g;
-        test[8] = g;
-        test[9] = g;
-
-
-
         listView = (ListView)findViewById(R.id.list);
-        adapter = new GestugeArrayAdapter(this, test);
+        adapter = new GestugeArrayAdapter(this, gestureManager.getGestures());
         listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 

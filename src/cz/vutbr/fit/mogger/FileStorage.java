@@ -1,12 +1,10 @@
 package cz.vutbr.fit.mogger;
 
 import android.content.Context;
-import android.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,9 +16,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 
 public class FileStorage {
 
@@ -62,38 +59,101 @@ public class FileStorage {
     }
 
 
-    public boolean loadConfig() {
+    public ArrayList<Gesture> loadConfig() {
+        ArrayList<Gesture> gestures = new ArrayList<Gesture>();
+//get the factory
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            XmlPullParser xpp = factory.newPullParser();
 
-            InputStream is = new FileInputStream(getFile());
+            //Using factory get an instance of document builder
+            DocumentBuilder db = dbf.newDocumentBuilder();
 
-            xpp.setInput(is, "utf-8");
-            int eventType = xpp.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_DOCUMENT) {
-                    Log.d("--------------------", "Start document");
-                } else if (eventType == XmlPullParser.START_TAG) {
-                    Log.d("--------------------", "Start tag " + xpp.getName());
-                } else if (eventType == XmlPullParser.END_TAG) {
-                    Log.d("--------------------", "End tag " + xpp.getName());
-                } else if (eventType == XmlPullParser.TEXT) {
-                    Log.d("--------------------", "Text " + xpp.getText());
-                }
-                eventType = xpp.next();
-            }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            //parse using builder to get DOM representation of the XML file
+            Document dom = db.parse("employees.xml");
+//            gestures = parseDocument(dom);
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (SAXException se) {
+            se.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
+        return gestures;
+    }
 
-        return true;
+    private ArrayList<Gesture> parseDocument(Document dom) {
+        ArrayList<Gesture> gestures = new ArrayList<Gesture>();
+
+        //get the root element
+        Element docEle = dom.getDocumentElement();
+
+        //get a nodelist of         elements
+        NodeList nl = docEle.getElementsByTagName("Gesture");
+        if (nl != null && nl.getLength() > 0) {
+            for (int i = 0; i < nl.getLength(); i++) {
+
+                //get the employee element
+                Element el = (Element) nl.item(i);
+
+                //get the Employee object
+                Gesture g = getGesture(el);
+
+                //add it to list
+                gestures.add(g);
+            }
+        }
+
+        return gestures;
+    }
+
+    private Gesture getGesture(Element el) {
+        String name = el.getAttribute("name");
+        String file = el.getAttribute("file");
+        int threshold = Integer.parseInt(el.getAttribute("threshold"));
+        int x, y, z;
+
+        //Create a new Employee with the value read from the xml nodes
+        Gesture gesture = new Gesture(name, file, threshold);
+
+        //get a nodelist of         elements
+        NodeList nl = el.getElementsByTagName("Coords");
+        if (nl != null && nl.getLength() > 0) {
+            for (int i = 0; i < nl.getLength(); i++) {
+
+
+//                gesture.addCoords(x, y, z);
+            }
+        }
+
+        return gesture;
+    }
+
+    /**
+     * I take a xml element and the tag name, look for the tag and get
+     * the text content
+     * i.e for <gesture><name>Square</name></gesture> xml snippet if
+     * the Element points to gesture node and tagName is 'name' I will return Square
+     */
+    private String getTextValue(Element ele, String tagName) {
+        String textVal = null;
+        NodeList nl = ele.getElementsByTagName(tagName);
+        if (nl != null && nl.getLength() > 0) {
+            Element el = (Element) nl.item(0);
+            textVal = el.getFirstChild().getNodeValue();
+        }
+
+        return textVal;
+    }
+
+
+    /**
+     * Calls getTextValue and returns a int value
+     */
+    private int getIntValue(Element ele, String tagName) {
+        return Integer.parseInt(getTextValue(ele, tagName));
     }
 
     private File getFile() {
