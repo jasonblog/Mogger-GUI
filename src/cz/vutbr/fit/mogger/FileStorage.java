@@ -17,8 +17,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FileStorage {
 
@@ -68,6 +70,17 @@ public class FileStorage {
             transformer.transform(source, result);
             Log.d("FileStorage", "File saved!");
 
+            Scanner sc = null;
+            try {
+                sc = new Scanner(getFile());
+                while(sc.hasNextLine()){
+                    String str = sc.nextLine();
+                    Log.d("FileStorage", str);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerConfigurationException e) {
@@ -89,15 +102,15 @@ public class FileStorage {
             DocumentBuilder db = dbf.newDocumentBuilder();
 
             //parse using builder to get DOM representation of the XML file
-            Document dom = db.parse("employees.xml");
+//            Document dom = db.parse("config.xml");
 //            gestures = parseDocument(dom);
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
-        } catch (SAXException se) {
-            se.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+//        } catch (SAXException se) {
+//            se.printStackTrace();
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
         }
 
         return gestures;
@@ -113,14 +126,8 @@ public class FileStorage {
         NodeList nl = docEle.getElementsByTagName("Gesture");
         if (nl != null && nl.getLength() > 0) {
             for (int i = 0; i < nl.getLength(); i++) {
-
-                //get the employee element
                 Element el = (Element) nl.item(i);
-
-                //get the Employee object
                 Gesture g = getGesture(el);
-
-                //add it to list
                 gestures.add(g);
             }
         }

@@ -22,8 +22,7 @@ public class SettingsActivity extends Activity {
     ListView listView;
     GestugeArrayAdapter adapter = null;
 
-    public SettingsActivity()
-    {
+    public SettingsActivity() {
         manager = GestureManager.createInstance(SettingsActivity.this);
     }
 
@@ -35,27 +34,21 @@ public class SettingsActivity extends Activity {
         Log.d("settings", "Settings activity starting");
 
 
-        manager.addGesture(new Gesture("a", "b", 80));
-        manager.addGesture(new Gesture("a", "b", 80));
-        manager.addGesture(new Gesture("a", "b", 80));
-        manager.addGesture(new Gesture("a", "b", 80));
-        manager.addGesture(new Gesture("a", "b", 80));
-
         // testovaci data
-        listView = (ListView)findViewById(R.id.list);
+        listView = (ListView) findViewById(R.id.list);
         adapter = new GestugeArrayAdapter(this, GestureManager.createInstance(SettingsActivity.this).getGestures());
         listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                 Log.d("settings", "Settings activity click list");
-                Gesture g = (Gesture)listView.getAdapter().getItem(position);
-                String  itemValue = g.name;
+                Gesture g = (Gesture) listView.getAdapter().getItem(position);
+                String itemValue = g.name;
                 Toast.makeText(getApplicationContext(),
-                        "Position: " + position + "  ListItem : " + itemValue , Toast.LENGTH_LONG)
+                        "Position: " + position + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
                         .show();
 
                 // zobrazeni detailu polozky
@@ -72,7 +65,6 @@ public class SettingsActivity extends Activity {
         });
 
 
-
     }
 
     @Override
@@ -85,8 +77,7 @@ public class SettingsActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(item.getItemId() == R.id.settings_create)
-        {
+        if (item.getItemId() == R.id.settings_create) {
             // settingsdetail
             Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
             myIntent.putExtra("gesture", -1);
@@ -100,21 +91,17 @@ public class SettingsActivity extends Activity {
     }
 
     @Override
-    protected void onStop ()
-    {
+    protected void onStop() {
         super.onStop();
-        if (adapter != null)
-        {
+        if (adapter != null) {
             adapter.mPlayer.pause();
         }
     }
 
     @Override
-    protected  void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
-        if (adapter!=null)
-        {
+        if (adapter != null) {
             adapter.mPlayer.stop();
             adapter = null;
         }
