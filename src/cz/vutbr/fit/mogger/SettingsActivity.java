@@ -3,7 +3,9 @@ package cz.vutbr.fit.mogger;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import android.widget.*;
 import cz.vutbr.fit.mogger.R;
 import cz.vutbr.fit.mogger.SettingsDetailActivity;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
 public class SettingsActivity extends Activity {
 
     ListView listView;
+    GestugeArrayAdapter adapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,10 @@ public class SettingsActivity extends Activity {
         test[9] = g;
 
 
+
         listView = (ListView)findViewById(R.id.list);
-        listView.setAdapter(new GestugeArrayAdapter(this, test));
+        adapter = new GestugeArrayAdapter(this, test);
+        listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -71,7 +77,6 @@ public class SettingsActivity extends Activity {
                 myIntent.putExtra("gestuge", position);
                 startActivity(myIntent);
 
-                //MediaPlayer mPlayer = MediaPlayer.create(PlayWorld.this, R.raw.aaanicholas);
             }
         });
 
@@ -101,5 +106,24 @@ public class SettingsActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop ()
+    {
+        if (adapter != null)
+        {
+            adapter.mPlayer.pause();
+        }
+    }
+
+    @Override
+    protected  void onDestroy()
+    {
+        if (adapter!=null)
+        {
+            adapter.mPlayer.stop();
+            adapter = null;
+        }
     }
 }

@@ -3,6 +3,9 @@ package cz.vutbr.fit.mogger;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 /**
  * Created by murry on 29.11.14.
  */
 public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
     private final Context context;
     private final Gesture[] values;
+
+    // prehravani media
+    public MediaPlayer mPlayer = new MediaPlayer();
 
     public GestugeArrayAdapter(Context context, Gesture[] values) {
         super(context, R.layout.list_gesture, values);
@@ -41,6 +49,23 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Playing song: " + descrition.getText(), Toast.LENGTH_LONG).show();
+                String ResourceID = "aa";
+
+                File path = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_MUSIC);
+                path = Environment.getExternalStoragePublicDirectory("/");
+                File file = new File(path, ResourceID+".mp3");
+
+                try {
+                    mPlayer.setDataSource(path + "/" + ResourceID + ".mp3");
+                    mPlayer.prepare();
+                    mPlayer.start();
+
+                }
+                catch (Exception e)
+                {
+                    Log.d("adapter", e.toString());
+                }
             }
         });
 
