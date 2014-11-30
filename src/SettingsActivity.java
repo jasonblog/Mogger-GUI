@@ -87,7 +87,7 @@ public class SettingsActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(item.getItemId() == R.id.action_settings)
+        if(item.getItemId() == R.id.settings_create)
         {
             // settingsdetail
             Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);

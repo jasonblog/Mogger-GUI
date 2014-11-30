@@ -22,7 +22,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Gesture Name"
             android:id="@+id/textView2"
-            android:layout_below="@+id/textView" android:layout_alignParentLeft="true" android:layout_marginTop="41dp"/>
+            android:layout_below="@+id/textView" android:layout_alignParentLeft="true" android:layout_marginTop="18dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Gesture Threshold"
             android:id="@+id/textView3"
-            android:layout_marginTop="36dp" android:layout_below="@+id/editText" android:layout_alignParentLeft="true"/>
+            android:layout_marginTop="18dp" android:layout_below="@+id/editText" android:layout_alignParentLeft="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Sound:"
             android:id="@+id/textView4"
-            android:layout_marginTop="39dp" android:layout_below="@+id/seekBar" android:layout_alignParentLeft="true"/>
+            android:layout_marginTop="18dp" android:layout_below="@+id/seekBar" android:layout_alignParentLeft="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Gesture"
             android:id="@+id/textView6"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="18dp"
             android:layout_below="@+id/imageButton" android:layout_alignParentLeft="true"/>
     <ImageButton
             android:layout_width="48dp"
@@ -75,16 +75,16 @@
             android:layout_alignTop="@+id/textView6" android:layout_alignLeft="@+id/imageButton"/>
 
     <ImageButton
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:id="@+id/imageButton4"
             android:background="@null"
             android:src="@drawable/remove" android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/imageButton2"/>
 
     <ImageButton
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:id="@+id/imageButton5"
             android:background="@null"
             android:src="@drawable/save" android:layout_alignParentBottom="true"
