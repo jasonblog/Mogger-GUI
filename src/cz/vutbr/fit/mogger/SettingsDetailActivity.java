@@ -70,7 +70,8 @@ public class SettingsDetailActivity extends Activity {
 
         // najdi gesto z pozice v poli gest
         position = (int)getIntent().getExtras().getInt("gesture");
-        if (position > 0) {
+        Log.d(getClass().getName(), "position: " + position);
+        if (position >= 0) {
             g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
             if (g != null) {
                 // vypis do GUI
@@ -85,9 +86,6 @@ public class SettingsDetailActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Toast.LENGTH_LONG)
-                        .show();
 
                 if (g == null) g = new Gesture("", "", 0);
                 g.fileSound = fullPath;
@@ -108,6 +106,12 @@ public class SettingsDetailActivity extends Activity {
                     Log.d("detail", "updateGesture");
 
                 }
+
+                // zobrazeni textu uziv.
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG)
+                        .show();
+                // ukonceni aktivity
+                finish();
 
             }
         });
