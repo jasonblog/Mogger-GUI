@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import cz.vutbr.fit.mogger.R;
+import cz.vutbr.fit.mogger.gesture.GestureManager;
 
 import java.io.File;
 
@@ -29,8 +30,6 @@ public class SettingsDetailActivity extends Activity {
     ImageButton save = null;
     ImageButton delete = null;
 
-    String filePath = null;
-    String fileOnlyName = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +40,8 @@ public class SettingsDetailActivity extends Activity {
         fileDialog.setFileEndsWith(".mp3");
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
-                filePath = file.toString();
-                int index = filePath.lastIndexOf('/');
-                if(index > 0 && index < filePath.length())
-                {
-                    fileOnlyName = filePath.substring(index+1, filePath.length());
-                    fileName.setText(fileOnlyName);
-                }
+
+                fileName.setText(getFileNameOnly(file.toString()));
                 //Log.d(getClass().getName(), "selected file " + file.toString());
             }
         });
@@ -67,5 +61,37 @@ public class SettingsDetailActivity extends Activity {
         gestureOk = (TextView)findViewById(R.id.textView7);
         save = (ImageButton)findViewById(R.id.imageButton5);
         delete = (ImageButton)findViewById(R.id.imageButton4);
+
+
+        // najdi gesto z pozice v poli gest
+        int position = (int)getIntent().getExtras().getInt("gesture");
+        if (position > 0) {
+            Gesture g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
+            if (g != null) {
+                // vypis do GUI
+                name.setText(g.name);
+                fileName.setText(getFileNameOnly(g.fileSound));
+                threshold.setMax( (int)(g.getThreshold() + g.getThreshold() * 0.5)); // + 50%
+                threshold.setProgress(g.getThreshold());
+            }//if
+        }//if
+    }
+
+    /**
+     * Vraci nazev souboru z plne cesty
+     * @param fullPath Cesta cesta souboru
+     * @return
+     */
+    private String getFileNameOnly(String fullPath)
+    {
+        String fileOnlyName = "";
+        int index = fullPath.lastIndexOf('/');
+        if(index > 0 && index < fullPath.length())
+        {
+            fileOnlyName = fullPath.substring(index+1, fullPath.length());
+            fileName.setText(fileOnlyName);
+        }
+
+        return fileOnlyName;
     }
 }

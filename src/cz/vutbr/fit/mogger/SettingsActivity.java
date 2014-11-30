@@ -64,7 +64,8 @@ public class SettingsActivity extends Activity {
                 //Bundle bundle = new Bundle();
                 //bundle.putSerializable("g", g);
                 //myIntent.putExtra(bundle);
-                myIntent.putExtra("gestuge", position);
+
+                myIntent.putExtra("gesture", position);
                 startActivity(myIntent);
 
             }
@@ -88,7 +89,7 @@ public class SettingsActivity extends Activity {
         {
             // settingsdetail
             Intent myIntent = new Intent(SettingsActivity.this, cz.vutbr.fit.mogger.SettingsDetailActivity.class);
-            myIntent.putExtra("GestureObject", "ahoj");
+            myIntent.putExtra("gesture", -1);
             this.startActivity(myIntent);
         }
 
