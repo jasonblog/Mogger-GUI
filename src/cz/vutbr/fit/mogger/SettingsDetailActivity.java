@@ -35,6 +35,9 @@ public class SettingsDetailActivity extends Activity {
     int position = 0;
     Gesture g = null;
 
+    // flag na detekci umeleho ulozeni
+    boolean manualSave = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +71,9 @@ public class SettingsDetailActivity extends Activity {
         save = (ImageButton) findViewById(R.id.imageButton5);
         delete = (ImageButton) findViewById(R.id.imageButton4);
 
-
-
-
         // najdi gesto z pozice v poli gest
         position = (int) getIntent().getExtras().getInt("gesture");
-        //Log.d(getClass().getName(), "position: " + position);
+
         if (position >= 0) {
             g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
             if (g != null) {
@@ -89,6 +89,18 @@ public class SettingsDetailActivity extends Activity {
         addGesture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // pokud je gesto nove - index je mimo
+                // udelame prvni udelame umely save
+                if (position == -1) {
+                    manualSave = true; // jelikoz to neumime predat v evente...
+                    save.callOnClick();
+                    manualSave = false;
+                    position = 0;
+                }
+
+                Log.d("SettingsDetailActivity", "Position: " + position);
+
                 // zobrazeni detailu polozky
                 Intent myIntent = new Intent(SettingsDetailActivity.this, RecordActivity.class);
                 // data do aktivity
@@ -113,8 +125,10 @@ public class SettingsDetailActivity extends Activity {
                 // zobrazeni textu uziv.
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
-                // ukonceni aktivity
-                finish();
+                if (!manualSave) {
+                    // ukonceni aktivity
+                    finish();
+                }
             }
         });
 

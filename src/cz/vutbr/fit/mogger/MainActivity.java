@@ -1,11 +1,16 @@
 package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import cz.vutbr.fit.mogger.AboutActivity;
 import cz.vutbr.fit.mogger.R;
@@ -21,11 +26,15 @@ public class MainActivity extends Activity {
     // get started tlacitko
     private ImageButton btnStarted = null;
 
-    // manager gest
-    //private GestureManager manager;
+    SensorManager sensorManager;
+    Sensor accelerometer;
+    Sounds sounds;
+
+    GestureManager gestureManager = GestureManager.createInstance(MainActivity.this);
+    MainActivityListener fastestListener;
 
     public MainActivity() {
-        //manager = new GestureManager(MainActivity.this);
+
     }
 
     @Override
@@ -34,8 +43,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.mainactivity);
 
         btnStarted = (ImageButton)findViewById(R.id.btnGetStarted);
-        btnStarted.setVisibility(View.INVISIBLE);
-
 
         // kliknuti na tlacitko get started
         btnStarted.setOnClickListener(new View.OnClickListener() {
@@ -47,16 +54,20 @@ public class MainActivity extends Activity {
             }
         });
 
-        // pokud je prazdny seznam gest
-        if (GestureManager.createInstance(MainActivity.this).isEmpty())
-        {
-            btnStarted.setVisibility(View.VISIBLE);
-        }
+        // prvni spusteni
+        GetStarted();
 
 
-        // TODO:
-        // spusti rozpoznavani
-        //
+        //init senzoru
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        fastestListener = new MainActivityListener(this, gestureManager);
+        sensorManager.registerListener(fastestListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+
+        sounds = new Sounds();
+
+        //start!
+        fastestListener.startRecording();
     }
 
     @Override
@@ -102,4 +113,39 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    protected void onResume() {
+        super.onResume();
+
+        //pokracuj v testovani podobnosti
+        sensorManager.registerListener(fastestListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        fastestListener.startRecording();
+
+        //reflesh
+        GetStarted();
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        //pozastav testovani podobnosti
+        sensorManager.unregisterListener(fastestListener);
+        fastestListener.stopRecording();
+    }
+
+    /**
+     * Nastaveni viditelnosti GetStarted tlacitla
+     */
+    private void GetStarted()
+    {
+        // pokud je prazdny seznam gest
+        if (GestureManager.createInstance(MainActivity.this).isEmpty())
+        {
+            btnStarted.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            btnStarted.setVisibility(View.INVISIBLE);
+        }
+    }
 }
