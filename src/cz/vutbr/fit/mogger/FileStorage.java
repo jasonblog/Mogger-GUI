@@ -79,9 +79,9 @@ public class FileStorage {
             int[][] coords = gesture.getCoordsArray();
             for (int i = 0; i < gesture.size(); i++) {
                 Element c = doc.createElement(COORDS_TAG);
-                gel.setAttribute("x", coords[0][i] + "");
-                gel.setAttribute("y", coords[1][i] + "");
-                gel.setAttribute("z", coords[2][i] + "");
+                c.setAttribute("x", coords[0][i] + "");
+                c.setAttribute("y", coords[1][i] + "");
+                c.setAttribute("z", coords[2][i] + "");
                 gel.appendChild(c);
             }
 
