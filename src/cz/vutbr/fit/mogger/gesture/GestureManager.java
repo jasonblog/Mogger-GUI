@@ -47,23 +47,13 @@ public class GestureManager {
         try {
             gesture = getGesture(gesture);
         } catch (Resources.NotFoundException e) {
+//            for (Gesture storedGesture : gestures) {
+//                if (storedGesture.name.equals(gesture.name)) {
+//                    throw new InvalidArgumentException("Gesture with name '" + gesture.name + "' already exists.");
+//                }
+//            }
             gestures.add(gesture);
         }
-        storage.storeGestures(gestures);
-    }
-
-    public void addGesture(Gesture gesture) {
-//        for (Gesture storedGesture : gestures) {
-//            if (storedGesture.name.equals(gesture.name)) {
-//                throw new InvalidArgumentException("Gesture with name '" + gesture.name + "' already exists.");
-//            }
-//        }
-        gestures.add(gesture);
-        updateGesture(gesture);
-    }
-
-
-    public void updateGesture(Gesture gesture) {
         storage.storeGestures(gestures);
     }
 
@@ -109,19 +99,15 @@ public class GestureManager {
         return false;
     }
 
-    private class InvalidArgumentException extends Throwable {
-        public InvalidArgumentException(String s) {
-        }
-    }
-
-
     /**
      * Test na prazdnost gest
-     *
-     * @return
      */
     public boolean isEmpty() {
         return gestures.isEmpty();
+    }
 
+    private class InvalidArgumentException extends Throwable {
+        public InvalidArgumentException(String s) {
+        }
     }
 }

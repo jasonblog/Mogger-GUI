@@ -138,7 +138,7 @@ public class Listener implements SensorEventListener {
         mogger.button1.setEnabled(true);
         sounds.PlayTone();
 
-        gestureManager.addGesture(currentGesture);
+        gestureManager.saveGesture(currentGesture);
     }
 
     private void onGestureDetected() {
