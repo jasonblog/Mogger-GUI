@@ -31,5 +31,6 @@
         <activity android:name="SettingsDetailActivity"/>
         <activity android:name="AboutActivity"/>
         <activity android:name=".FileBrowser"/>
+        <activity android:name=".RecordActivity"/>
     </application>
 </manifest>

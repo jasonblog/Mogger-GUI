@@ -33,9 +33,8 @@ public class SettingsActivity extends Activity {
 
         // testovaci data
         listView = (ListView) findViewById(R.id.list);
-        adapter = new GestugeArrayAdapter(this, manager.getGestures());
-        listView.setAdapter(adapter);
-        listView.setTextFilterEnabled(true);
+        // reflesh seznamu gest
+        RefleshListItem();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,8 +55,13 @@ public class SettingsActivity extends Activity {
 
             }
         });
+    }
 
-
+    public void RefleshListItem()
+    {
+        adapter = new GestugeArrayAdapter(this, manager.getGestures());
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
     }
 
     @Override
@@ -76,18 +80,22 @@ public class SettingsActivity extends Activity {
             myIntent.putExtra("gesture", -1);
             this.startActivity(myIntent);
 
-            listView = (ListView)findViewById(R.id.list);
-            adapter = new GestugeArrayAdapter(this, GestureManager.createInstance(SettingsActivity.this).getGestures());
-            listView.setAdapter(adapter);
-            listView.setTextFilterEnabled(true);
-
-
+            // reflesh seznamu gest
+            RefleshListItem();
         }
 
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected  void onResume()
+    {
+        super.onResume();
+        // reflesh seznamu gest
+        RefleshListItem();
     }
 
     @Override
