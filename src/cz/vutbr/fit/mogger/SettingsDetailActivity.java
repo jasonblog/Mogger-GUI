@@ -66,9 +66,11 @@ public class SettingsDetailActivity extends Activity {
         delete = (ImageButton) findViewById(R.id.imageButton4);
 
 
+
+
         // najdi gesto z pozice v poli gest
         position = (int) getIntent().getExtras().getInt("gesture");
-        Log.d(getClass().getName(), "position: " + position);
+        //Log.d(getClass().getName(), "position: " + position);
         if (position >= 0) {
             g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
             if (g != null) {
@@ -80,7 +82,17 @@ public class SettingsDetailActivity extends Activity {
             }//if
         }//if
 
-
+        // pridani gesta
+        addGesture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // zobrazeni detailu polozky
+                Intent myIntent = new Intent(SettingsDetailActivity.this, RecordActivity.class);
+                // data do aktivity
+                myIntent.putExtra("gesture", position);
+                startActivity(myIntent);
+            }
+        });
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +109,7 @@ public class SettingsDetailActivity extends Activity {
 
                 // zobrazeni textu uziv.
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+
                 // ukonceni aktivity
                 finish();
             }
