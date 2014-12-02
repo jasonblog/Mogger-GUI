@@ -25,6 +25,12 @@ import java.util.Scanner;
 public class FileStorage {
 
     private Context context;
+    private static final String GESTURE_LIST_TAG = "Gestures";
+    private static final String GESTURE_TAG = "Gesture";
+    private static final String GESTURE_ATTR_NAME = "name";
+    private static final String GESTURE_ATTR_THRESHOLD = "threshold";
+    private static final String GESTURE_ATTR_FILE = "file";
+    private static final String COORDS_TAG = "Coords";
 
     public FileStorage(Context context) {
 
@@ -33,54 +39,14 @@ public class FileStorage {
 
     public void storeGestures(ArrayList<Gesture> gestures) {
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = null;
-            docBuilder = docFactory.newDocumentBuilder();
-
-            // root elements
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("gestures");
-            doc.appendChild(rootElement);
-
-            for (Gesture gesture : gestures) {
-                Element gel = doc.createElement("gesture");
-                gel.setAttribute("name", gesture.name);
-                gel.setAttribute("file", gesture.fileSound);
-                gel.setAttribute("threshold", gesture.getThreshold() + "");
-
-                int[][] coords = gesture.getCoordsArray();
-                for (int i = 0; i < gesture.size(); i++) {
-                    Element c = doc.createElement("coord");
-                    gel.setAttribute("x", coords[0][i] + "");
-                    gel.setAttribute("y", coords[1][i] + "");
-                    gel.setAttribute("z", coords[2][i] + "");
-                    gel.appendChild(c);
-                }
-
-                rootElement.appendChild(gel);
-            }
-
+            Document doc = generateDocument(gestures);
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(getFile());
-
             transformer.transform(source, result);
-            Log.d("FileStorage", "File saved!");
-
-            Scanner sc = null;
-            try {
-                sc = new Scanner(getFile());
-                while(sc.hasNextLine()){
-                    String str = sc.nextLine();
-                    Log.d("FileStorage", str);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerConfigurationException e) {
@@ -91,26 +57,49 @@ public class FileStorage {
     }
 
 
+    private Document generateDocument(ArrayList<Gesture> gestures) throws ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement(GESTURE_LIST_TAG);
+        doc.appendChild(rootElement);
+
+        for (Gesture gesture : gestures) {
+            Element gel = doc.createElement(GESTURE_TAG);
+            gel.setAttribute(GESTURE_ATTR_NAME, gesture.name);
+            gel.setAttribute(GESTURE_ATTR_FILE, gesture.fileSound);
+            gel.setAttribute(GESTURE_ATTR_THRESHOLD, gesture.getThreshold() + "");
+
+            int[][] coords = gesture.getCoordsArray();
+            for (int i = 0; i < gesture.size(); i++) {
+                Element c = doc.createElement(COORDS_TAG);
+                gel.setAttribute("x", coords[0][i] + "");
+                gel.setAttribute("y", coords[1][i] + "");
+                gel.setAttribute("z", coords[2][i] + "");
+                gel.appendChild(c);
+            }
+
+            rootElement.appendChild(gel);
+        }
+
+        return doc;
+    }
+
+
     public ArrayList<Gesture> loadConfig() {
         ArrayList<Gesture> gestures = new ArrayList<Gesture>();
-        //get the factory
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
-
-            //Using factory get an instance of document builder
             DocumentBuilder db = dbf.newDocumentBuilder();
-
-            //parse using builder to get DOM representation of the XML file
-//            Document dom = db.parse("config.xml");
-//            gestures = parseDocument(dom);
-
+            Document dom = db.parse(getFile());
+            gestures = parseDocument(dom);
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
-//        } catch (SAXException se) {
-//            se.printStackTrace();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
+        } catch (SAXException se) {
+            se.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
         return gestures;
@@ -119,11 +108,9 @@ public class FileStorage {
     private ArrayList<Gesture> parseDocument(Document dom) {
         ArrayList<Gesture> gestures = new ArrayList<Gesture>();
 
-        //get the root element
         Element docEle = dom.getDocumentElement();
+        NodeList nl = docEle.getElementsByTagName(GESTURE_TAG);
 
-        //get a nodelist of         elements
-        NodeList nl = docEle.getElementsByTagName("Gesture");
         if (nl != null && nl.getLength() > 0) {
             for (int i = 0; i < nl.getLength(); i++) {
                 Element el = (Element) nl.item(i);
@@ -136,13 +123,13 @@ public class FileStorage {
     }
 
     private Gesture getGesture(Element el) {
-        String name = el.getAttribute("name");
-        String file = el.getAttribute("file");
-        int threshold = Integer.parseInt(el.getAttribute("threshold"));
+        String name = el.getAttribute(GESTURE_ATTR_NAME);
+        String file = el.getAttribute(GESTURE_ATTR_FILE);
+        int threshold = Integer.parseInt(el.getAttribute(GESTURE_ATTR_THRESHOLD));
 
         Gesture gesture = new Gesture(name, file, threshold);
 
-        NodeList nl = el.getElementsByTagName("Coords");
+        NodeList nl = el.getElementsByTagName(COORDS_TAG);
         if (nl != null && nl.getLength() > 0) {
             for (int i = 0; i < nl.getLength(); i++) {
                 Element elc = (Element) nl.item(i);
