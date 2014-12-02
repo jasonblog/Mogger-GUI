@@ -21,6 +21,10 @@ public class Gesture {
     // signalizace zapoceti nahravani noveho gesta a ukonceni nahravani
     Sounds sounds;
 
+    public Gesture() {
+        this("", "", 0);
+    }
+
     public Gesture(String name, String fileSound, int threshold) {
         this.name = name;
         this.fileSound = fileSound;

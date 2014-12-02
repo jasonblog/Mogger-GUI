@@ -38,8 +38,9 @@ public class FileStorage {
     }
 
     public void storeGestures(ArrayList<Gesture> gestures) {
+        Document doc = null;
         try {
-            Document doc = generateDocument(gestures);
+            doc = generateDocument(gestures);
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -53,6 +54,11 @@ public class FileStorage {
             e.printStackTrace();
         } catch (TransformerException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+            if (doc != null) {
+                Log.d("FileStorage - generated doc", doc.toString());
+            }
         }
     }
 
@@ -100,6 +106,16 @@ public class FileStorage {
             se.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } finally {
+            try {
+                Scanner sc = new Scanner(getFile());
+                while(sc.hasNextLine()){
+                    String str = sc.nextLine();
+                    Log.d("FileStorage", str);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         return gestures;
@@ -145,6 +161,8 @@ public class FileStorage {
     }
 
     private File getFile() {
-        return new File(context.getFilesDir(), "config.xml");
+        File file = new File(context.getFilesDir(), "config.xml");
+        file.setWritable(true);
+        return file;
     }
 }

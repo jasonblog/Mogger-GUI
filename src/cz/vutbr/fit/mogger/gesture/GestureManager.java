@@ -1,6 +1,7 @@
 package cz.vutbr.fit.mogger.gesture;
 
 import android.content.Context;
+import android.content.res.Resources;
 import cz.vutbr.fit.mogger.DTW;
 import cz.vutbr.fit.mogger.FileStorage;
 import cz.vutbr.fit.mogger.Gesture;
@@ -24,6 +25,31 @@ public class GestureManager {
     public static GestureManager createInstance(Context context) {
         if (instance == null) instance = new GestureManager(context);
         return instance;
+    }
+
+    public Gesture getGesture(String name) throws Resources.NotFoundException {
+        for (Gesture gesture : gestures) {
+            if (gesture.name.equals(name)) {
+                return gesture;
+            }
+        }
+        throw new Resources.NotFoundException("Gesture '" + name + "' not found");
+    }
+
+    public Gesture getGesture(Gesture g) throws Resources.NotFoundException {
+        if (!gestures.contains(g)) {
+            throw new Resources.NotFoundException("Gesture '" + g.name + "' not found");
+        }
+        return g;
+    }
+
+    public void saveGesture(Gesture gesture) {
+        try {
+            gesture = getGesture(gesture);
+        } catch (Resources.NotFoundException e) {
+            gestures.add(gesture);
+        }
+        storage.storeGestures(gestures);
     }
 
     public void addGesture(Gesture gesture) {

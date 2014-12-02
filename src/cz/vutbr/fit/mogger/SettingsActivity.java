@@ -12,9 +12,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
 
-/**
- * Created by murry on 29.11.14.
- */
 public class SettingsActivity extends Activity {
 
     private GestureManager manager;
@@ -36,7 +33,7 @@ public class SettingsActivity extends Activity {
 
         // testovaci data
         listView = (ListView) findViewById(R.id.list);
-        adapter = new GestugeArrayAdapter(this, GestureManager.createInstance(SettingsActivity.this).getGestures());
+        adapter = new GestugeArrayAdapter(this, manager.getGestures());
         listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
