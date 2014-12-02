@@ -1,11 +1,14 @@
 package cz.vutbr.fit.mogger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import cz.vutbr.fit.mogger.R;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
