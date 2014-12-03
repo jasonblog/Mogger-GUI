@@ -20,13 +20,13 @@ public class SettingsActivity extends Activity {
     GestugeArrayAdapter adapter = null;
 
     public SettingsActivity() {
-        manager = GestureManager.createInstance(SettingsActivity.this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingsactivity);
+        manager = GestureManager.createInstance(getApplicationContext());
 
         Log.d("settings", "Settings activity starting");
 

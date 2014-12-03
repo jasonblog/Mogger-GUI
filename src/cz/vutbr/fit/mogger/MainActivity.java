@@ -30,17 +30,18 @@ public class MainActivity extends Activity {
     Sensor accelerometer;
     Sounds sounds;
 
-    GestureManager gestureManager = GestureManager.createInstance(MainActivity.this);
+    GestureManager gestureManager;
     MainActivityListener fastestListener;
 
     public MainActivity() {
-
+        sounds = new Sounds();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
+        gestureManager = GestureManager.createInstance(getApplicationContext());
 
         btnStarted = (ImageButton)findViewById(R.id.btnGetStarted);
 
@@ -63,8 +64,6 @@ public class MainActivity extends Activity {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         fastestListener = new MainActivityListener(this, gestureManager);
         sensorManager.registerListener(fastestListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-
-        sounds = new Sounds();
 
         //start!
         fastestListener.startRecording();
@@ -139,7 +138,7 @@ public class MainActivity extends Activity {
     private void GetStarted()
     {
         // pokud je prazdny seznam gest
-        if (GestureManager.createInstance(MainActivity.this).isEmpty())
+        if (gestureManager.isEmpty())
         {
             btnStarted.setVisibility(View.VISIBLE);
         }

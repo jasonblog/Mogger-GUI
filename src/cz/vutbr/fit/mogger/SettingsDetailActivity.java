@@ -75,7 +75,7 @@ public class SettingsDetailActivity extends Activity {
         position = (int) getIntent().getExtras().getInt("gesture");
 
         if (position >= 0) {
-            g = GestureManager.createInstance(SettingsDetailActivity.this).getGestures().get(position);
+            g = GestureManager.createInstance(getApplicationContext()).getGestures().get(position);
             if (g != null) {
                 // vypis do GUI
                 name.setText(g.name);
@@ -111,7 +111,7 @@ public class SettingsDetailActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GestureManager manager = GestureManager.createInstance(SettingsDetailActivity.this);
+                GestureManager manager = GestureManager.createInstance(getApplicationContext());
 
                 if (g == null) {
                     g = new Gesture();

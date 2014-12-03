@@ -33,13 +33,14 @@ public class RecordActivity extends Activity {
     RecordListener fastestListener;
 
     public RecordActivity() {
-        gestureManager = GestureManager.createInstance(RecordActivity.this);
+        sounds = new Sounds();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recordactivity);
+        gestureManager = GestureManager.createInstance(getApplicationContext());
 
         //senzory
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -49,13 +50,9 @@ public class RecordActivity extends Activity {
         fastestListener = new RecordListener(this, gestureManager);
         sensorManager.registerListener(fastestListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
 
-        //pipnuti
-        sounds = new Sounds();
-
         // prevezmi pozici a najdi gesto
         position = (int) getIntent().getExtras().getInt("gesture");
-        GestureManager manager = GestureManager.createInstance(RecordActivity.this);
-        g = manager.getGestures().get(position);
+        g = gestureManager.getGestures().get(position);
 
         // text popisek
         textView = (TextView) findViewById(R.id.text_view);

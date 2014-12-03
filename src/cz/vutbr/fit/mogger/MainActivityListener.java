@@ -3,7 +3,10 @@ package cz.vutbr.fit.mogger;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.media.MediaPlayer;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
+
+import java.io.IOException;
 
 import static cz.vutbr.fit.mogger.Constants.*;
 import static cz.vutbr.fit.mogger.Constants.CHECK_GESTURE_START;
@@ -103,6 +106,17 @@ public class MainActivityListener implements SensorEventListener {
         // prehrej, zatim jen ton
         //TODO: zde bude prehravani mp3
         sounds.PlayTone();
+
+        try {
+            MediaPlayer mPlayer = new MediaPlayer();
+            String filePath = currentGesture.fileSound;
+            mPlayer.setDataSource(filePath);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

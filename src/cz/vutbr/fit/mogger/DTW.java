@@ -5,12 +5,12 @@ import static java.lang.Math.sqrt;
 public class DTW {
 
     // pocita hodnotu DTW
-    public int dtw_check(int[][] acc_gesture, int[][] gesture) {
-
-        int size = acc_gesture[0].length;
+    public int dtw_check(Gesture storedGesture, Gesture testedGesture) {
+        int[][] testedCoords = testedGesture.getCoordsArray();
+        int[][] storedGestureCoords = storedGesture.getCoordsArray();
+        int size = testedGesture.size();
 
         // LOKALNI DIFERENCE
-
         int[][] local_distance = new int[size][size];
 
         for (int i = 0; i < size; i++) {
@@ -25,7 +25,7 @@ public class DTW {
 
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
-                local_distance[i][k] = euclidean_distance(gesture[0][i], acc_gesture[0][k], gesture[1][i], acc_gesture[1][k], gesture[2][i], acc_gesture[2][k]);
+                local_distance[i][k] = euclidean_distance(storedGestureCoords[0][i], testedCoords[0][k], storedGestureCoords[1][i], testedCoords[1][k], storedGestureCoords[2][i], testedCoords[2][k]);
             }
         }
 
@@ -45,11 +45,9 @@ public class DTW {
         }
 
         for (int i = 1; i < size; i++) {
-
             for (int k = 1; k < size; k++) {
                 global_distance[i][k] = local_distance[i][k] + min(global_distance[i - 1][k], global_distance[i - 1][k - 1], global_distance[i][k - 1]);
             }
-
         }
 
         return global_distance[size - 1][size - 1];

@@ -75,9 +75,9 @@ public class GestureManager {
 
     private boolean compareGestures(Gesture testedGesture, Gesture storedGesture) {
         // mame v bufferu vice nebo stejne vektoru jako ma gesto? (= muzeme zkontrolovat celou sekvenci?)
-        if (testedGesture.size() >= storedGesture.size()) {
+        if (testedGesture.size() >= storedGesture.size() && storedGesture.size() > 0 && testedGesture.size() > 0) {
             // vypocet DTW
-            int result = dtw.dtw_check(testedGesture.getCoordsArray(), storedGesture.getCoordsArray());
+            int result = dtw.dtw_check(testedGesture, storedGesture);
 
             // gesto zachyceno, promazeme zachycene gesto (kvuli mnohonasobnemu zachyceni s dalsimi vzorky)
             if (result < storedGesture.getThreshold()) {
