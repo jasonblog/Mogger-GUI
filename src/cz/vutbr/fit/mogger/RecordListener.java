@@ -42,8 +42,6 @@ public class RecordListener implements SensorEventListener {
         isActive = true;
         this.currentGesture = _currentGesture;
 
-        Log.d("RecordListener", "Gesture null: " + (currentGesture == null));
-
         if (currentGesture == null) {
             currentGesture = new Gesture("new", "", 0); // to avoid overriding existing gesture
         }
@@ -81,8 +79,6 @@ public class RecordListener implements SensorEventListener {
 
     // ulozeni noveho gesta
     private void save(int x, int y, int z) {
-
-        Log.d("RecordListener", "Gesture null: " + (currentGesture == null));
 
         if (currentGesture.size() == 0) {
             // prvni inicializace

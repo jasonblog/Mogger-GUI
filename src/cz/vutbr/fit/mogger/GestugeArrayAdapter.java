@@ -53,8 +53,10 @@ public class GestugeArrayAdapter extends ArrayAdapter<Gesture> {
                 File file = new File(filePath);
 
                 try {
+                    // zastaveni predchozi pisne, hraje-li jeste
+                    if (mPlayer != null && mPlayer.isPlaying()) mPlayer.stop();
+                    // nova instance a prehrani pisne
                     mPlayer = new MediaPlayer();
-
                     mPlayer.setDataSource(filePath);
                     mPlayer.prepare();
                     mPlayer.start();

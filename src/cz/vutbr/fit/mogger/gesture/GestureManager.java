@@ -89,14 +89,19 @@ public class GestureManager {
         return false;
     }
 
-    public boolean checkGesture(Gesture gesture) {
-        for (Gesture storedGesture : gestures) {
-            if (compareGestures(gesture, storedGesture)) {
-                return true;
+    /**
+     * Vraci index gesta, ktere se stejne gesto jako v parametru, -1 pri nenalezeni
+     * @param gesture
+     * @return
+     */
+    public int checkGesture(Gesture gesture) {
+        for (int i = 0; i < gestures.size(); i++) {
+            if (compareGestures(gesture, gestures.get(i))) {
+                return i;
             }
-        }
+        }//for
 
-        return false;
+        return -1;
     }
 
     /**

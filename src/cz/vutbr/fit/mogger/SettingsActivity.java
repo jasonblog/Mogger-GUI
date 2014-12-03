@@ -43,9 +43,6 @@ public class SettingsActivity extends Activity {
                 Log.d("settings", "Settings activity click list");
                 Gesture g = (Gesture) listView.getAdapter().getItem(position);
                 String itemValue = g.name;
-                Toast.makeText(getApplicationContext(),
-                        "Position: " + position + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
 
                 // zobrazeni detailu polozky
                 Intent myIntent = new Intent(SettingsActivity.this, SettingsDetailActivity.class);

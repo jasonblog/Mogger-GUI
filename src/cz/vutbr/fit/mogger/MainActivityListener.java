@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.media.MediaPlayer;
+import android.util.Log;
 import cz.vutbr.fit.mogger.gesture.GestureManager;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class MainActivityListener implements SensorEventListener {
     //stav posuzovaneho gesta
     private int check_gesture;
     private int prev_x, prev_y, prev_z;
+
+    // prehravac
+    MediaPlayer mPlayer;
 
     //aktualni gesto
     private Gesture currentGesture;
@@ -79,8 +83,9 @@ public class MainActivityListener implements SensorEventListener {
                     currentGesture.addCoords(x, y, z);
 
                     // pro vsechny gesta - zkontroluj!
-                    if (gestureManager.checkGesture(currentGesture)) {
-                        onGestureDetected();
+                    int gestureIndex = gestureManager.checkGesture(currentGesture);
+                    if (gestureIndex >= 0) {
+                        onGestureDetected(gestureIndex);
                     }
                 }
 
@@ -100,7 +105,7 @@ public class MainActivityListener implements SensorEventListener {
     /**
      * Detekovano gesto!
      */
-    private void onGestureDetected() {
+    private void onGestureDetected(int gestureIndex) {
         currentGesture.cleanCoords();
 
         // prehrej, zatim jen ton
@@ -108,8 +113,12 @@ public class MainActivityListener implements SensorEventListener {
         sounds.PlayTone();
 
         try {
-            MediaPlayer mPlayer = new MediaPlayer();
-            String filePath = currentGesture.fileSound;
+
+            // stop predchoziho
+            if (mPlayer != null && mPlayer.isPlaying()) mPlayer.stop();
+            // nova instance a prehravej!
+            mPlayer = new MediaPlayer();
+            String filePath = gestureManager.getGestures().get(gestureIndex).fileSound;
             mPlayer.setDataSource(filePath);
             mPlayer.prepare();
             mPlayer.start();
@@ -123,8 +132,13 @@ public class MainActivityListener implements SensorEventListener {
     }
 
 
-    public void startRecording() { isActive = true; }
+    public void startRecording() {
+        isActive = true;
+    }
     public void stopRecording() {
         isActive = false;
+        // stop hudby, je-li
+        if (mPlayer != null) mPlayer.stop();
+
     }
 }

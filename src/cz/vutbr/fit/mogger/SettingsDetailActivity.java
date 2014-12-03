@@ -35,6 +35,7 @@ public class SettingsDetailActivity extends Activity {
     int position = 0;
     Gesture g = null;
 
+
     // flag na detekci umeleho ulozeni
     boolean manualSave = false;
 
@@ -50,7 +51,7 @@ public class SettingsDetailActivity extends Activity {
             public void fileSelected(File file) {
 
                 fullPath = file.toString();
-                fileName.setText(file.toString());
+                fileName.setText(getFileNameOnly(fullPath));
                 //Log.d(getClass().getName(), "selected file " + file.toString());
             }
         });
@@ -79,11 +80,15 @@ public class SettingsDetailActivity extends Activity {
             if (g != null) {
                 // vypis do GUI
                 name.setText(g.name);
-                fileName.setText(g.fileSound);
+                fileName.setText(getFileNameOnly(g.fileSound));
+                fullPath = g.fileSound;
                 threshold.setMax((int) (g.getThreshold() + g.getThreshold() * 0.5)); // + 50%
                 threshold.setProgress(g.getThreshold());
             }//if
         }//if
+
+        // nelze mazat, pridavame-li nove gesto
+        if (g == null) delete.setVisibility(View.INVISIBLE);
 
         // pridani gesta
         addGesture.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +99,7 @@ public class SettingsDetailActivity extends Activity {
                 // udelame prvni udelame umely save
                 if (position == -1) {
                     manualSave = true; // jelikoz to neumime predat v evente...
-                    save.callOnClick();
+                    save.performClick();
                     manualSave = false;
                     position = 0;
                 }
@@ -108,6 +113,8 @@ public class SettingsDetailActivity extends Activity {
                 startActivity(myIntent);
             }
         });
+
+        // ulozeni gesta
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +124,7 @@ public class SettingsDetailActivity extends Activity {
                     g = new Gesture();
                 }
                 g.name = name.getText().toString();
-                g.fileSound = fileName.getText().toString();
+                g.fileSound = fullPath;
                 g.setThreshold(threshold.getProgress());
 
                 manager.saveGesture(g);
@@ -130,6 +137,26 @@ public class SettingsDetailActivity extends Activity {
                     finish();
                 }
             }
+        });
+
+
+        // mazani gesta
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GestureManager manager = GestureManager.createInstance(getApplicationContext());
+
+                if (g != null) {
+                    manager.removeGesture(g);
+
+                    // zobrazeni textu uziv.
+                    Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_LONG).show();
+
+                    // ukonceni aktivity
+                    finish();
+                }//if null
+            }
+
         });
 
     }
