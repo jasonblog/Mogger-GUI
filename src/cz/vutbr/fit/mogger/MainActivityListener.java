@@ -124,7 +124,7 @@ public class MainActivityListener implements SensorEventListener {
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("MainActivityListener", "Playing failed");
         }
 
     }
