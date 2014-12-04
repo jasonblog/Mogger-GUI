@@ -36,6 +36,10 @@ public class SettingsDetailActivity extends Activity {
     Gesture g = null;
 
 
+    // min max pro threshold
+    final int MIN = 30;
+    final int MAX = 200;
+
     // flag na detekci umeleho ulozeni
     boolean manualSave = false;
 
@@ -72,8 +76,13 @@ public class SettingsDetailActivity extends Activity {
         save = (ImageButton) findViewById(R.id.imageButton5);
         delete = (ImageButton) findViewById(R.id.imageButton4);
 
+
         // najdi gesto z pozice v poli gest
         position = (int) getIntent().getExtras().getInt("gesture");
+
+
+        // posunuti intervalu do <min,max>
+        threshold.setMax(MAX-MIN);
 
         if (position >= 0) {
             g = GestureManager.createInstance(getApplicationContext()).getGestures().get(position);
@@ -82,10 +91,30 @@ public class SettingsDetailActivity extends Activity {
                 name.setText(g.name);
                 fileName.setText(getFileNameOnly(g.fileSound));
                 fullPath = g.fileSound;
-                threshold.setMax((int) (g.getThreshold() + g.getThreshold() * 0.5)); // + 50%
-                threshold.setProgress(g.getThreshold());
+
+                threshold.setProgress(g.getThreshold()-MIN);
             }//if
         }//if
+
+        // nastaveni labelu zobrazujici hodnotu threshold
+        final TextView seekBarValue = (TextView)findViewById(R.id.edtSeekBar);
+        if (g != null) seekBarValue.setText(String.valueOf(g.getThreshold() - MIN));
+        threshold.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                seekBarValue.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
         // nelze mazat, pridavame-li nove gesto
         if (g == null) delete.setVisibility(View.INVISIBLE);
@@ -125,7 +154,7 @@ public class SettingsDetailActivity extends Activity {
                 }
                 g.name = name.getText().toString();
                 g.fileSound = fullPath;
-                g.setThreshold(threshold.getProgress());
+                g.setThreshold(threshold.getProgress() + MIN);
 
                 manager.saveGesture(g);
 
