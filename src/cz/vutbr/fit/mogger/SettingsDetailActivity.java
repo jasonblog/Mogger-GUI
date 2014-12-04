@@ -116,13 +116,13 @@ public class SettingsDetailActivity extends Activity {
 
         // nastaveni labelu zobrazujici hodnotu threshold
         final TextView seekBarValue = (TextView)findViewById(R.id.edtSeekBar);
-        if (g != null) seekBarValue.setText(String.valueOf(g.getThreshold() - MIN));
+        if (g != null) seekBarValue.setText(String.valueOf(g.getThreshold()));
         threshold.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
-                seekBarValue.setText(String.valueOf(progress));
+                seekBarValue.setText(String.valueOf(progress + MIN));
             }
 
             @Override
@@ -225,8 +225,10 @@ public class SettingsDetailActivity extends Activity {
             // prvni nahravani gesta?
             if (isFirst)
             {
+                int v = g.calculateThreshold();
+                Log.d("SettingsDetailActivity", "calculateThreshold(): " + v);
                 // dosadime spocitanou hodnotu
-                g.setThreshold(g.calculateThreshold());
+                g.setThreshold(v);
                 threshold.setProgress(g.getThreshold()-MIN);
                 isFirst = false;
             }
