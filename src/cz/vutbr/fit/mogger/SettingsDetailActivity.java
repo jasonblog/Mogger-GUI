@@ -167,13 +167,16 @@ public class SettingsDetailActivity extends Activity {
      * @param fullPath Cesta cesta souboru
      */
     private String getFileNameOnly(String fullPath) {
-        String fileOnlyName = "";
-        int index = fullPath.lastIndexOf('/');
-        if (index > 0 && index < fullPath.length()) {
-            fileOnlyName = fullPath.substring(index + 1, fullPath.length());
-            fileName.setText(fileOnlyName);
-        }
 
+        String fileOnlyName = "";
+        if (fullPath != null) {
+            int index = fullPath.lastIndexOf('/');
+
+            if (index > 0 && index < fullPath.length()) {
+                fileOnlyName = fullPath.substring(index + 1, fullPath.length());
+                fileName.setText(fileOnlyName);
+            }
+        }//if
         return fileOnlyName;
     }
 }
