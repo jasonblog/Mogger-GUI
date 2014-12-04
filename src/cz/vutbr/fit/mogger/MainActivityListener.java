@@ -112,6 +112,7 @@ public class MainActivityListener implements SensorEventListener {
         //TODO: zde bude prehravani mp3
         sounds.PlayTone();
 
+/*
         try {
 
             // stop predchoziho
@@ -125,6 +126,7 @@ public class MainActivityListener implements SensorEventListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
     }
 

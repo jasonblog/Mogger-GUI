@@ -6,9 +6,9 @@ public class DTW {
 
     // pocita hodnotu DTW
     public int dtw_check(Gesture storedGesture, Gesture testedGesture) {
-        int[][] testedCoords = testedGesture.getCoordsArray();
         int[][] storedGestureCoords = storedGesture.getCoordsArray();
-        int size = testedGesture.size();
+        int size = storedGesture.size();
+        int[][] testedCoords = testedGesture.getTestedCoordsArray(size);
 
         // LOKALNI DIFERENCE
         int[][] local_distance = new int[size][size];

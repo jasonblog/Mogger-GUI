@@ -68,6 +68,20 @@ public class Gesture {
         return coords;
     }
 
+    public int[][] getTestedCoordsArray(int size) {
+        int tested_size = coord_x.size();
+        int[][] coords = new int[3][size];
+        int k = 0;
+        for (int i = tested_size - size; i < tested_size; i++) {
+            coords[0][k] = coord_x.get(i);
+            coords[1][k] = coord_y.get(i);
+            coords[2][k] = coord_z.get(i);
+            k++;
+        }
+
+        return coords;
+    }
+
     // promaze aktualne posbirana data
     public void cleanCoords() {
         coord_x.clear();
