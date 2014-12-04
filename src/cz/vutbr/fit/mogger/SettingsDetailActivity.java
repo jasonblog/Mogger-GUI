@@ -36,6 +36,9 @@ public class SettingsDetailActivity extends Activity {
     Gesture g = null;
 
 
+    // jedna se o prvni pridani?
+    boolean isFirst = false;
+
     // min max pro threshold
     final int MIN = 30;
     final int MAX = 200;
@@ -148,6 +151,9 @@ public class SettingsDetailActivity extends Activity {
                     // pozice je "ta posledni"
                     GestureManager manager = GestureManager.createInstance(getApplicationContext());
                     position = manager.getGestures().size() - 1;
+
+                    //prvni nahravani gesta
+                    isFirst = true;
                 }
 
                 Log.d("SettingsDetailActivity", "Position: " + position);
@@ -215,6 +221,15 @@ public class SettingsDetailActivity extends Activity {
         super.onResume();
         if(g != null && g.size() > 0) {
             gestureOk.setText(Integer.toString(g.size()));
+
+            // prvni nahravani gesta?
+            if (isFirst)
+            {
+                // dosadime spocitanou hodnotu
+                g.setThreshold(g.calculateThreshold());
+                threshold.setProgress(g.getThreshold()-MIN);
+                isFirst = false;
+            }
         }
     }
 
