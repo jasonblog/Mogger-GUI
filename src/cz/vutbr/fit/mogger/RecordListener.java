@@ -84,7 +84,7 @@ public class RecordListener implements SensorEventListener {
             // prvni inicializace
             if (prev_x != 100) {
                 // uzivatel zacal vytvaret gesto
-                if (calculateDiff(x, y, z) > 2) {
+                if (calculateDiff(x, y, z) > 1) {
                     currentGesture.addCoords(x, y, z);
                     onGestureStart();
                 }
@@ -94,7 +94,7 @@ public class RecordListener implements SensorEventListener {
 
             // mame alespon 8 vektoru, zacneme overovat, zda uzivatel neukoncil gesto
             if (currentGesture.size() >= 8) {
-                if (calculateDiff(x, y, z) < 2) {
+                if (calculateDiff(x, y, z) < 3) {
                     onGestureEnd();
                 }
             }

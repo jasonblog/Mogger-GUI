@@ -42,7 +42,6 @@ public class SettingsActivity extends Activity {
 
                 Log.d("settings", "Settings activity click list");
                 Gesture g = (Gesture) listView.getAdapter().getItem(position);
-                String itemValue = g.name;
 
                 // zobrazeni detailu polozky
                 Intent myIntent = new Intent(SettingsActivity.this, SettingsDetailActivity.class);

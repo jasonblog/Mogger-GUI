@@ -79,6 +79,7 @@ public class RecordActivity extends Activity {
                     // vycisti a napl
                     g.cleanCoords();
 
+
                     // zpozdeni 2 sec pred samotnym nahravanim gesta
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
@@ -86,6 +87,8 @@ public class RecordActivity extends Activity {
                             fastestListener.startRecording(g);
                         }
                     }, 1000);
+
+                    //fastestListener.startRecording(g);
                 }
             }
         });
@@ -107,6 +110,7 @@ public class RecordActivity extends Activity {
 
     protected void onPause() {
         super.onPause();
+
 
         sensorManager.unregisterListener(fastestListener);
     }

@@ -2,6 +2,7 @@ package cz.vutbr.fit.mogger.gesture;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import cz.vutbr.fit.mogger.DTW;
 import cz.vutbr.fit.mogger.FileStorage;
 import cz.vutbr.fit.mogger.Gesture;
@@ -78,6 +79,8 @@ public class GestureManager {
         if (testedGesture.size() >= storedGesture.size() && storedGesture.size() > 0 && testedGesture.size() > 0) {
             // vypocet DTW
             int result = dtw.dtw_check(storedGesture, testedGesture);
+
+            Log.d("compareGestures", "theshold: " + storedGesture.getThreshold());
 
             // gesto zachyceno, promazeme zachycene gesto (kvuli mnohonasobnemu zachyceni s dalsimi vzorky)
             if (result < storedGesture.getThreshold()) {

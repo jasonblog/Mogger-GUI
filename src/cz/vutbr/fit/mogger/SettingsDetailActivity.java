@@ -145,7 +145,9 @@ public class SettingsDetailActivity extends Activity {
                     manualSave = true; // jelikoz to neumime predat v evente...
                     save.performClick();
                     manualSave = false;
-                    position = 0;
+                    // pozice je "ta posledni"
+                    GestureManager manager = GestureManager.createInstance(getApplicationContext());
+                    position = manager.getGestures().size() - 1;
                 }
 
                 Log.d("SettingsDetailActivity", "Position: " + position);
@@ -169,6 +171,9 @@ public class SettingsDetailActivity extends Activity {
                 }
                 g.name = name.getText().toString();
                 g.fileSound = fullPath;
+
+                Log.d("SettingsDetailActivity", "Calc threshold: " + g.getThreshold());
+
                 g.setThreshold(threshold.getProgress() + MIN);
 
                 manager.saveGesture(g);
