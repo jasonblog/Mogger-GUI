@@ -51,6 +51,7 @@ public class SettingsDetailActivity extends Activity {
         mPath = new File(Environment.getExternalStorageDirectory() + "//DIR//");
         fileDialog = new FileDialog(this, mPath);
         fileDialog.setFileEndsWith(".mp3");
+        fileDialog.setFileEndsWith2(".wav");
         fileDialog.addFileListener(new cz.vutbr.fit.mogger.FileDialog.FileSelectedListener() {
             public void fileSelected(File file) {
 
@@ -71,8 +72,10 @@ public class SettingsDetailActivity extends Activity {
             }
         });
         fileName = (TextView) findViewById(R.id.textView5);
+        fileName.setText("Empty");
         addGesture = (ImageButton) findViewById(R.id.imageButton2);
         gestureOk = (TextView) findViewById(R.id.textView7);
+        gestureOk.setText("Empty");
         save = (ImageButton) findViewById(R.id.imageButton5);
         delete = (ImageButton) findViewById(R.id.imageButton4);
 
@@ -89,8 +92,20 @@ public class SettingsDetailActivity extends Activity {
             if (g != null) {
                 // vypis do GUI
                 name.setText(g.name);
-                fileName.setText(getFileNameOnly(g.fileSound));
-                fullPath = g.fileSound;
+                String name = getFileNameOnly(g.fileSound);
+                if(name == "")
+                {
+                    fileName.setText("Empty");
+                }
+                else {
+                    fileName.setText(name);
+                    fullPath = g.fileSound;
+                }
+                if(g.size() > 0)
+                {
+                    gestureOk.setText("OK");
+                }
+
 
                 threshold.setProgress(g.getThreshold()-MIN);
             }//if
@@ -188,6 +203,14 @@ public class SettingsDetailActivity extends Activity {
 
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(g != null && g.size() > 0) {
+            gestureOk.setText(Integer.toString(g.size()));
+        }
     }
 
     /**

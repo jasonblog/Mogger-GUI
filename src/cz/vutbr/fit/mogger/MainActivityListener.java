@@ -98,8 +98,8 @@ public class MainActivityListener implements SensorEventListener {
 
     }
 
-    protected int calculateDiff(int x, int y, int z) {
-        return abs(x - prev_x) + abs(y - prev_y) + abs(z - prev_z);
+    protected double calculateDiff(int x, int y, int z) {
+        return (abs(x - prev_x) + abs(y - prev_y) + abs(z - prev_z));
     }
 
     /**

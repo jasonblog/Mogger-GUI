@@ -28,6 +28,7 @@ public class FileDialog {
     private final Activity activity;
     private boolean selectDirectoryOption;
     private String fileEndsWith;
+    private String fileEndsWith2;
     /**
      * @param activity
      * @param initialPath
@@ -114,7 +115,8 @@ public class FileDialog {
                     if (selectDirectoryOption) return sel.isDirectory();
                     else {
                         boolean endsWith = fileEndsWith != null ? filename.toLowerCase().endsWith(fileEndsWith) : true;
-                        return endsWith || sel.isDirectory();
+                        boolean endsWith2 = fileEndsWith2 != null ? filename.toLowerCase().endsWith(fileEndsWith2) : true;
+                        return endsWith || endsWith2 || sel.isDirectory();
                     }
                 }
             };
@@ -133,6 +135,10 @@ public class FileDialog {
     }
     public void setFileEndsWith(String fileEndsWith) {
         this.fileEndsWith = fileEndsWith != null ? fileEndsWith.toLowerCase() : fileEndsWith;
+    }
+
+    public void setFileEndsWith2(String fileEndsWith) {
+        this.fileEndsWith2 = fileEndsWith != null ? fileEndsWith.toLowerCase() : fileEndsWith;
     }
 }
 class ListenerList<L> {
